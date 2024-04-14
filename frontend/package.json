@@ -1,0 +1,11 @@
+{
+  "name": "cee-frontend",
+  "version": "0.0.0",
+  "private": true,
+  "main": "server.js",
+  "type": "module",
+  "dependencies": {
+    "express": "^4.19.2",
+    "phaser": "^3.80.1"
+  }
+}
