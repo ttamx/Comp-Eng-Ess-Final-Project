@@ -62,6 +62,7 @@ export class GameScene extends Phaser.Scene {
 		if (this.count % 100 == 0) {
 			this.velocity -= 5;
 		}
+	if (this.player.y > 650 ){this.player.y = 650 ;}
 	}
 
 	createBomb() {
