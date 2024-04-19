@@ -1,18 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
-    <title>IDK</title>
+    <title>SPACECRAFT</title>
     <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
-    <style type="text/css">
-        body {
-            margin: 0;
-        }
+    <link rel="stylesheet" href="./styles/style.css" />
+    <link
+      href="https://fonts.cdnfonts.com/css/arcade-classic"
+      rel="stylesheet"
+    />
+    <style>
+      @import url("https://fonts.cdnfonts.com/css/arcade-classic");
     </style>
-</head>
-<body>
-    <div id="game">
-	    <script type="module" src="scripts/main.js"></script>
-    </div>
-</body>
+  </head>
+  <body>
+    <form autocomplete="off" class="form">
+      <div class="waviy">
+        <span style="--i: 1">S</span>
+        <span style="--i: 2">P</span>
+        <span style="--i: 3">A</span>
+        <span style="--i: 4">C</span>
+        <span style="--i: 5">E</span>
+        <span style="--i: 6">C</span>
+        <span style="--i: 7">R</span>
+        <span style="--i: 8">A</span>
+        <span style="--i: 9">F</span>
+        <span style="--i: 10">T</span>
+      </div>
+
+      <div class="control">
+        <h2>Enter Your Name</h2>
+      </div>
+      <div class="control block-cube block-input">
+        <input name="username" placeholder="Username" type="text" />
+        <div class="bg-top">
+          <div class="bg-inner"></div>
+        </div>
+        <div class="bg-right">
+          <div class="bg-inner"></div>
+        </div>
+        <div class="bg">
+          <div class="bg-inner"></div>
+        </div>
+      </div>
+      <button class="btn block-cube block-cube-hover" type="button" onclick = "document.cookie = 'username=' + document.querySelector('input[name=username]').value; window.location.href = './game.html';">
+        <div class="bg-top">
+          <div class="bg-inner"></div>
+        </div>
+        <div class="bg-right">
+          <div class="bg-inner"></div>
+        </div>
+        <div class="bg">
+          <div class="bg-inner"></div>
+        </div>
+        <div class="text">Let's start !</div>
+      </button>
+    </form>
+  </body>
 </html>
