@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
 	username: String,
-	password: String,
-	balance: Number
+	maxScore: Number,
+	maxDistance: Number
 });
 
 const User = mongoose.model("User", userSchema);
