@@ -1,4 +1,4 @@
-body { margin: 0px; padding: 0px; font-family:"Arial"; overflow-x:hidden; }
+body { margin: 0px; padding: 0px; font-family:'ArcadeClassic', 'Roboto Condensed'; overflow-x:hidden; }
 
 img { position: absolute; display: block; margin: 0px; border: none; padding: 0px; }
 
@@ -33,7 +33,6 @@ div { position: absolute; }
 .leaderBoard-message {
 	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 	overflow-wrap: break-word;
-	font-family: 'ArcadeClassic', 'Roboto Condensed';
 	font-weight: 400;
 	font-size: 36px;
 	text-align: center;
@@ -48,7 +47,7 @@ div { position: absolute; }
 .play-again-button .play-again {
 	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 	overflow-wrap: break-word;
-	font-family: 'ArcadeClassic', 'Roboto Condensed';
+	font-family:'ArcadeClassic', 'Roboto Condensed';
 	font-weight: 400;
 	font-size: 30px;
 	color: #FFFFFF;
@@ -88,7 +87,6 @@ div { position: absolute; }
 #table-head {
     background: #555;
     color:white;
-	font-family: 'ArcadeClassic', 'Roboto Condensed';
 	font-weight: 400;
 	font-size: 30px;
 	color: #FFFFFF;
