@@ -113,54 +113,10 @@ h1 {
   position: relative;
   z-index: 2;
 }
-.block-cube.block-input input {
-  position: relative;
-  z-index: 2;
-}
-.block-cube.block-input input:focus ~ .bg-right .bg-inner,
-.block-cube.block-input input:focus ~ .bg-top .bg-inner,
-.block-cube.block-input input:focus ~ .bg-inner .bg-inner {
-  top: 100%;
-  background: rgba(255, 255, 255, 0.5);
-}
-.block-cube.block-input .bg-top,
-.block-cube.block-input .bg-right,
-.block-cube.block-input .bg {
-  background: rgba(255, 255, 255, 0.5);
-  transition: background 0.2s ease-in-out;
-}
-.block-cube.block-input .bg-right .bg-inner,
-.block-cube.block-input .bg-top .bg-inner {
-  transition: all 0.2s ease-in-out;
-}
-.block-cube.block-input:focus .bg-top,
-.block-cube.block-input:focus .bg-right,
-.block-cube.block-input:focus .bg,
-.block-cube.block-input:hover .bg-top,
-.block-cube.block-input:hover .bg-right,
-.block-cube.block-input:hover .bg {
-  background: rgba(255, 255, 255, 0.8);
-}
 .block-cube.block-cube-hover:focus .bg .bg-inner,
 .block-cube.block-cube-hover:hover .bg .bg-inner {
   top: 100%;
 }
 
-/* .credits {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  padding: 15px 15px;
-  width: 100%;
-  z-index: 111;
-}
-.credits a {
-  opacity: 0.6;
-  color: #fff;
-  font-size: 11px;
-  text-decoration: none;
-}
-.credits a:hover {
-  opacity: 1;
-} */
+
 

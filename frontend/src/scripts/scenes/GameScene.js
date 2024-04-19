@@ -150,4 +150,6 @@ export class GameScene extends Phaser.Scene {
 		star.checkWorldBounds = true;
 		star.outOfBoundsKill = true;
 	}
+
+	
 }
