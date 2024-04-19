@@ -33,7 +33,7 @@ export class GameScene extends Phaser.Scene {
 		this.cursors = this.input.keyboard.createCursorKeys();
 		this.playerSpeed = 400;
 		this.velocity = -500;
-		this.gameSpeed = 2;
+		this.gameSpeed = 1.3;
 		this.meteors = this.physics.add.group();
 		this.lastdistance = 0;
 		this.distance = 0;
@@ -134,7 +134,7 @@ export class GameScene extends Phaser.Scene {
 
 	createMeteors() {
 		const randomY = Math.floor(Math.random() * 700);
-		var meteor = this.meteors.create(1280, randomY, 'meteor').setScale(0.1);
+		var meteor = this.meteors.create(1280, randomY, 'meteor').setScale(0.08);
 		meteor.setVelocityX(this.velocity * this.gameSpeed);
 		meteor.setBounce(1);
 		meteor.checkWorldBounds = true;
