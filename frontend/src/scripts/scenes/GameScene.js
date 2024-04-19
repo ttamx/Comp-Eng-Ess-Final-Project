@@ -75,7 +75,8 @@ export class GameScene extends Phaser.Scene {
 			}
 		}
 		if (this.gameOver) {
-			return;
+			// return;
+			window.location.href = './gameover.html';
 		}
 		this.updateCyclicBackground();
 		this.distance -= this.velocity * this.gameSpeed;
