@@ -52,8 +52,8 @@ export class GameScene extends Phaser.Scene {
 			sendScore(this.username, this.score, Math.floor(this.distance/1000));
 		});
 		this.stars = this.physics.add.group();
-		this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#0F0' });
-		this.distanceText = this.add.text(16, 48, 'distance: 0', { fontSize: '32px', fill: '#0F0' });
+		this.scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#FFFFFF',fontFamily:'ArcadeClassic'});
+		this.distanceText = this.add.text(16, 48, 'Distance: 0', { fontSize: '32px', fill: '#FFFFFF',fontFamily:'ArcadeClassic' });
 		this.physics.add.overlap(this.player, this.stars, (player, star) => {
 			star.destroy();
 			this.score += 1;
