@@ -1,117 +1,211 @@
-body { margin: 0px; padding: 0px; font-family:'ArcadeClassic', 'Roboto Condensed'; overflow-x:hidden; }
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+@import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap");
 
-img { position: absolute; display: block; margin: 0px; border: none; padding: 0px; }
-
-
-div { position: absolute; }
-
-#content-container { display: block; position: relative; width: 800px; width: 800px; height: 450px; overflow: hidden; display: block;  margin-left: auto; margin-right: auto;  }
-
-
-#page_background_ek1 {
-	top: 0px;
-	left: 0px;
-	width: 800px;
-	height: 450px;
+body {
+  background-image: url("../assets/leaderBoard_background.png");
+  background-repeat: no-repeat;
+  background-size: 100%;
+  color:white;
+  background-color: #020024;
+  font-family: "ArcadeClassic", sans-serif;
+  letter-spacing: 0.05em;
 }
 
-#_bg__background_ek2 {
-	top: 0px;
-	left: 0px;
-	width: 800px;
-	height: 450px;
-	background:rgba(255,255,255,1);
-}
-
-
-#background_container {
-	top: 0px;
-	left: 0px;
-	width: 800px;
-	height: 450px;
-}
-.leaderBoard-message {
-	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-	overflow-wrap: break-word;
-	font-family: 'ArcadeClassic', 'Roboto Condensed';
-	font-weight: 400;
-	font-size: 36px;
-	text-align: center;
-	color: #FFFFFF;
-	position: absolute;
-    top: 10%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center; 
-  }
-
-
-.play-again-button .play-again {
-	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-	overflow-wrap: break-word;
-	font-family:'ArcadeClassic', 'Roboto Condensed';
-	font-weight: 400;
-	font-size: 30px;
-	color: #FFFFFF;
-	border-radius: 21px;
-	background: #B4CEF4;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	padding: 5px 0 4px 0;
-	box-sizing: border-box;
-    width: 300px;
-	
-  }
-.play-again-button {
-	position: absolute;
-            top: 90%;
+h1 {
+  font-size: 55px;
+  position: fixed;
+            top: 5%;
             left: 50%;
             transform: translate(-50%, -50%);
-            text-align: center;
-  }
-  
-  #table {
+            text-align: center; 
+}
+
+.form {
+  width: 300px;
+  padding: 64px 15px 24px;
+  margin: 0 auto;
+}
+.form .control {
+  margin: 0 0 24px;
+}
+.form .btn {
+  width: 100%;
+  display: block;
+  padding: 14px 16px;
+  background: transparent;
+  outline: none;
+  border: 0;
+  color: #fff;
+  letter-spacing: 0.1em;
+  font-weight: bold;
+  font-family: "ArcadeClassic", sans-serif;
+  font-size: 30px;
+}
+
+.play{
+    position: absolute;
+    top: 90%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center; 
+}
+#table{
     padding: 0;
-    width: 100%;
-    background: #EEE;
+    width: 90%;
+    background: lightgrey;
     border-radius: 8px;
     box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.1);
     border-collapse: collapse;
     overflow: hidden;
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
+  text-align: center;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-
-#table-head {
-    background: #555;
-    color: white;
-    font-weight: 400;
-    font-size: 30px;
+#table > thead{
+    background: black;
+	font-weight: 400;
     color: #FFFFFF;
     position: absolute;
     top: 0;
-    z-index: 1; /* Ensure the header stays above the table body */
+    z-index: 1;
 }
-
-#table-body {
-    font-family: 'ArcadeClassic', 'Roboto Condensed';
-    font-weight: 400;
-    font-size: 30px;
-    color: black;
+#table > thead > tr > th{
+    font-weight: lighter;
+    text-align: left;
+}
+#table td{
+  background: grey;
+	font-size: 30px;
+    padding: 5px 10px;
+    font-weight: lighter;
 }
 
 #name{
-	width: 800px;
+	background: black;
+	font-size: 40px;
+	width: 80%;
 }
 #score{
-	width: 200px;
+	background: black;
+	font-size: 40px;
+	width: 20%;
 }
 #distance{
-	width: 200px;
+	background: black;
+	font-size: 40px;
+	width: 20%;
 }
+
+.block-cube {
+	position: relative;
+  }
+.block-cube .bg-top {
+	position: absolute;
+	height: 20px;
+	background: #020024;
+	background: linear-gradient(90deg, #020024 0%, #340979 37%, #00d4ff 94%);
+	bottom: 100%;
+	left: 5px;
+	right: -5px;
+	transform: skew(-45deg, 0);
+	margin: 0;
+  }
+.block-cube .bg-top .bg-inner {
+	bottom: 0;
+  }
+.block-cube .bg {
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	background: #020024;
+	background: linear-gradient(90deg, #020024 0%, #340979 37%, #00d4ff 94%);
+  }
+.block-cube .bg-right {
+	position: absolute;
+	background: #020024;
+	background: #00d4ff;
+	top: -5px;
+	z-index: 0;
+	bottom: 5px;
+	width: 20px;
+	left: 100%;
+	transform: skew(0, -45deg);
+  }
+.block-cube .bg-right .bg-inner {
+	left: 0;
+  }
+.block-cube .bg .bg-inner {
+	transition: all 0.2s ease-in-out;
+  }
+.block-cube .bg-inner {
+	background: #212121;
+	position: absolute;
+	left: 2px;
+	top: 2px;
+	right: 2px;
+	bottom: 2px;
+  }
+.block-cube .text {
+	position: relative;
+	z-index: 2;
+  }
+.block-cube.block-input input {
+	position: relative;
+	z-index: 2;
+  }
+.block-cube.block-input input:focus ~ .bg-right .bg-inner,
+.block-cube.block-input input:focus ~ .bg-top .bg-inner,
+.block-cube.block-input input:focus ~ .bg-inner .bg-inner {
+	top: 100%;
+	background: rgba(255, 255, 255, 0.5);
+  }
+.block-cube.block-input .bg-top,
+.block-cube.block-input .bg-right,
+.block-cube.block-input .bg {
+	background: rgba(255, 255, 255, 0.5);
+	transition: background 0.2s ease-in-out;
+  }
+.block-cube.block-input .bg-right .bg-inner,
+.block-cube.block-input .bg-top .bg-inner {
+	transition: all 0.2s ease-in-out;
+  }
+.block-cube.block-input:focus .bg-top,
+.block-cube.block-input:focus .bg-right,
+.block-cube.block-input:focus .bg,
+.block-cube.block-input:hover .bg-top,
+.block-cube.block-input:hover .bg-right,
+.block-cube.block-input:hover .bg {
+	background: rgba(255, 255, 255, 0.8);
+  }
+.block-cube.block-cube-hover:focus .bg .bg-inner,
+.block-cube.block-cube-hover:hover .bg .bg-inner {
+	top: 100%;
+  }
+
+  .credits {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	padding: 15px 15px;
+	width: 100%;
+	z-index: 111;
+  }
+  .credits a {
+	opacity: 0.6;
+	color: #fff;
+	font-size: 11px;
+	text-decoration: none;
+  }
+  .credits a:hover {
+	opacity: 1;
+  }
 
 
