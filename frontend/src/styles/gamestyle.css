@@ -7,7 +7,7 @@
 
 body {
   background-image: url("../assets/bg.png");
-  background-repeat: repeat;
+  background-repeat: no-repeat;
   color: #fff;
   font-family: "ArcadeClassic", sans-serif;
   letter-spacing: 0.05em;
