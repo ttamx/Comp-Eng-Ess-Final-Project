@@ -1,7 +1,9 @@
+import { sendScore } from "../api.js";
+
 export class GameScene extends Phaser.Scene {
-  constructor() {
-    super('GameScene');
-  }
+	constructor() {
+		super('GameScene');
+	}
 
 	preload() {
 		this.load.image('character', '../../assets/capoo.png');
@@ -10,9 +12,10 @@ export class GameScene extends Phaser.Scene {
 	}
 
 	create() {
-    this.player = this.physics.add.sprite(100, 450, 'character').setScale(0.07);
-    this.player.setBounce(0.2);
-    this.player.setCollideWorldBounds(true);
+		this.username = document.cookie.split('=')[1];
+		this.player = this.physics.add.sprite(100, 450, 'character').setScale(0.07);
+		this.player.setBounce(0.2);
+		this.player.setCollideWorldBounds(true);
 		this.player.setVelocityY(-330);
 		this.isJump = false;
 		this.cursors = this.input.keyboard.createCursorKeys();
@@ -26,6 +29,8 @@ export class GameScene extends Phaser.Scene {
 			this.gameOver = true;
 			this.physics.pause();
 			this.player.setTint(0xff0000);
+			console.log(this.username, this.score, Math.floor(this.distance/1000));
+			sendScore(this.username, this.score, Math.floor(this.distance/1000));
 		});
 		this.stars = this.physics.add.group();
 		this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#0F0' });
@@ -44,9 +49,9 @@ export class GameScene extends Phaser.Scene {
 		}
 		this.distance -= this.velocity;
 		this.distanceText.setText('Distance: ' + Math.floor(this.distance/1000));
-    if (this.cursors.space.isDown) {
-			this.player.setVelocityY(-300);
-    } else {
+		if (this.cursors.space.isDown) {
+				this.player.setVelocityY(-300);
+		} else {
 			this.player.setVelocityY(300);
 		}
 		while (this.distance - this.lastdistance > 1000) {
@@ -62,12 +67,11 @@ export class GameScene extends Phaser.Scene {
 		if (this.count % 100 == 0) {
 			this.velocity -= 5;
 		}
-	if (this.player.y > 650 ){this.player.y = 650 ;}
 	}
 
 	createBomb() {
 		const randomY = Math.floor(Math.random() * 700);
-		var bomb = this.obstacles.create(1200, randomY, 'bomb').setScale(1.5);
+		var bomb = this.obstacles.create(1280, randomY, 'bomb').setScale(1.5);
 		bomb.setVelocityX(this.velocity);
 		bomb.setBounce(1);
 		bomb.checkWorldBounds = true;
@@ -76,7 +80,7 @@ export class GameScene extends Phaser.Scene {
 
 	createStar() {
 		const randomY = Math.floor(Math.random() * 705);
-		var star = this.stars.create(1200, randomY, 'star').setScale(1);
+		var star = this.stars.create(1280, randomY, 'star').setScale(1);
 		star.setVelocityX(this.velocity);
 		star.setBounce(1);
 		star.checkWorldBounds = true;

@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 
 import userRoute from "./routes/userRoute.js";
-import roomRoute from "./routes/roomRoute.js";
 
 
 const app = express();
@@ -16,6 +15,5 @@ app.use(cors());
 
 // use routes
 app.use("/users", userRoute);
-app.use("/rooms", roomRoute);
 
 export default app;

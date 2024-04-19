@@ -1,35 +1,24 @@
 import User from "../models/userModel.js";
 
-export const getUsers = async (req, res) => {
-    try {
-        const users = await User.find();
-        res.status(200).json(users);
+export const sendScore = async (req, res) => {
+    try{
+        const { username, score, distance } = req.body;
+        var user = await User.findOne({ username });
+        if(!user){
+            user = User.create({ username, maxScore: score, maxDistance: distance });
+            res.status(200).json(user);
+        }else{
+            if(score > user.maxScore){
+                user.maxScore = score;
+            }
+            if(distance > user.maxDistance){
+                user.maxDistance = distance;
+            }
+            res.status(200).json(user);
+        }
+        await user.save();
     } catch (error) {
-        res.status(500).json({ error: "Internal Server Error" });
-    }
-}
-
-export const getUserById = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const user = await User.findOne({ _id: id });
-        res.status(200).json(user);
-    } catch (error) {
-        res.status(404).json({ error: "User not found" });
-    }
-}
-
-export const createUser = async (req, res) => {
-    const { username, password } = req.body;
-    try {
-        const user = await User.create({ 
-            username,
-            password,
-            balance: 1000
-        });
-        res.status(201).json(user);
-    } catch (error) {
-        res.status(400).json({ error: "Invalid data" });
-    }
+		res.status(404).json({ error: "Room not found" });
+	}
 }
 
