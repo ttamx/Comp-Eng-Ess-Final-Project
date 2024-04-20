@@ -10,9 +10,11 @@ export class GameScene extends Phaser.Scene {
 		this.load.image('character', '../../assets/capoo.png');
 		this.load.image('meteor', '../../assets/meteor.png');
 		this.load.image('star', '../../assets/star.png');
+		this.load.image('heart', '../../assets/heart.png');
 		this.load.audio('bgm','../../assets/bgm.mp3');
 		this.load.audio('crash','../../audio/crash.mp3');
 		this.load.audio('starsfx','../../audio/star.mp3');
+		
 	}
 
 	create() {
@@ -48,20 +50,20 @@ export class GameScene extends Phaser.Scene {
 		this.gameOver = false;
 		this.score = 0;
 		this.invincible = false;
-		this.health = 20;
-		this.healthText = this.add.text(16, 80, `Health: ${this.health}`, { fontSize: '32px', fill: '#FFFFFF',fontFamily:'ArcadeClassic' });
-		// overSound = this.sound.add('overSound');
+		this.health = 10;
+		this.heartGroup = [];
+		
 		this.physics.add.overlap(this.player, this.meteors, (player, meteor) => {
 			if (this.invincible) {
 				return;
 			}
 			this.crash.play();
-			this.health -= 3;
+			this.health -= 1;
 			this.getHurt();
 			if (this.health < 0) {
 				this.health = 0;
 			}
-			this.healthText.setText('Health: ' + this.health);
+			
 			if(this.health === 0) {
 				this.gameOver = true;
 				this.physics.pause();
@@ -80,6 +82,8 @@ export class GameScene extends Phaser.Scene {
 			this.scoreText.setText('Score: ' + this.score);
 		});
 		this.count = 0;
+
+		this.createHeart();
 	}
 
 	update() {
@@ -113,6 +117,8 @@ export class GameScene extends Phaser.Scene {
 		} else {
 			this.player.setVelocityY(this.playerSpeed * this.gameSpeed);
 		}
+		this.updateHeart();
+
 	}
 
 	updateCyclicBackground() {
@@ -191,6 +197,21 @@ export class GameScene extends Phaser.Scene {
 			this.player.visible = true;
 		}, 2000);
 	}
-
+	createHeart(){
+		for (var i=0; i < this.health ; i++){
+			var heart = this.physics.add.sprite(900 + (i*35),40, 'heart').setScale(0.015);
+			this.heartGroup.push(heart);
+		}
+	}
+	updateHeart(){
+		for (var i = this.heartGroup.length -1; i>=0;i--){
+			if(this.health < i+1){
+				this.heartGroup[i].setVisible(false);
+			}
+			else{
+				this.heartGroup[i].setVisible(true);
+			}
+		}
+	}
 	
 }
