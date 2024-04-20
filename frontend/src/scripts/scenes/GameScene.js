@@ -83,10 +83,15 @@ export class GameScene extends Phaser.Scene {
 				boss.timers.forEach(timer => {
 					timer.remove();
 				});
-				boss.destroy();
-				this.bossFighting = false;
-				this.gameSpeed += 0.5;
-				this.updateSpeed();
+				boss.invincible = true;
+				boss.setCollideWorldBounds(false);
+				boss.setVelocityX(100);
+				setTimeout(() => {
+					this.bossFighting = false;
+					boss.destroy();
+					this.gameSpeed += 0.5;
+					this.updateSpeed();
+				}, 5000);
 			}
 		});
 		this.physics.add.overlap(this.player, this.enemiesBullets, (player, bullet) => {
