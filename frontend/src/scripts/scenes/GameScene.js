@@ -41,17 +41,26 @@ export class GameScene extends Phaser.Scene {
 		this.gameOver = false;
 		this.score = 0;
 		this.invincible = false;
+		this.health = 20;
+		this.healthText = this.add.text(16, 80, 'Health: 20', { fontSize: '32px', fill: '#FFFFFF',fontFamily:'ArcadeClassic' });
 		// overSound = this.sound.add('overSound');
 		this.physics.add.overlap(this.player, this.meteors, (player, meteor) => {
 			if (this.invincible) {
-				meteor.destroy();
 				return;
 			}
-			this.gameOver = true;
-			this.physics.pause();
-			this.player.setTint(0xff0000);
-			console.log(this.username, this.score, Math.floor(this.distance/1000));
-			sendScore(this.username, this.score, Math.floor(this.distance/1000));
+			this.health -= 3;
+			this.getHurt();
+			if (this.health < 0) {
+				this.health = 0;
+			}
+			this.healthText.setText('Health: ' + this.health);
+			if(this.health === 0) {
+				this.gameOver = true;
+				this.physics.pause();
+				this.player.setTint(0xff0000);
+				console.log(this.username, this.score, Math.floor(this.distance/1000));
+				sendScore(this.username, this.score, Math.floor(this.distance/1000));
+			}
 		});
 		this.stars = this.physics.add.group();
 		this.scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#FFFFFF',fontFamily:'ArcadeClassic'});
@@ -152,6 +161,26 @@ export class GameScene extends Phaser.Scene {
 		star.setBounce(1);
 		star.checkWorldBounds = true;
 		star.outOfBoundsKill = true;
+	}
+
+	getHurt() {
+		this.invincible = true;
+		setTimeout(() => {
+			this.invincible = false;
+		}, 2000);
+		const timer = this.time.addEvent({
+			delay: 100,
+			callback: () => {
+				this.player.visible = !this.player.visible;
+			},
+
+			callbackScope: this,
+			loop: true
+		});
+		setTimeout(() => {
+			timer.remove();
+			this.player.visible = true;
+		}, 2000);
 	}
 
 	
