@@ -39,6 +39,7 @@ export class GameScene extends Phaser.Scene {
 		this.started = false;
 		this.username = document.cookie.split('=')[1];
 		this.player = this.physics.add.sprite(100, 450, 'character').setScale(0.17);
+		this.player.setDepth(1000);
 		this.player.setBounce(0);
 		this.player.setCollideWorldBounds(true);
 		this.player.setVelocityY(0);
@@ -108,7 +109,8 @@ export class GameScene extends Phaser.Scene {
 				setTimeout(() => {
 					this.bossFighting = false;
 					boss.destroy();
-					this.gameSpeed += 0.5;
+					this.gameSpeed += 0.1;
+					this.gameSpeed = Math.min(2.5, this.gameSpeed);
 					this.updateSpeed();
 					timer.remove();
 					timer2.remove();
@@ -130,6 +132,7 @@ export class GameScene extends Phaser.Scene {
 			this.crash.play();
 			this.health -= 1;
 			this.getHurt();
+			this.updateHealth();
 			if (this.health < 0) {
 				this.health = 0;
 			}
@@ -183,7 +186,7 @@ export class GameScene extends Phaser.Scene {
 					loop: true
 				});
 
-				this.bossFight();
+				// this.bossFight();
 			} else {
 				return;
 			}
@@ -297,6 +300,7 @@ export class GameScene extends Phaser.Scene {
 		star.setBounce(1);
 		star.checkWorldBounds = true;
 		star.outOfBoundsKill = true;
+		star.setDepth(700);
 	}
 
 	getHurt() {
@@ -339,6 +343,7 @@ export class GameScene extends Phaser.Scene {
 		bullet.setVelocityX(800 - this.gameSpeed * this.velocity);
 		bullet.checkWorldBounds = true;
 		bullet.outOfBoundsKill = true;
+		bullet.setDepth(500);
 	}
 
 	fireEnemyBullet(position) {
@@ -346,6 +351,7 @@ export class GameScene extends Phaser.Scene {
 		bullet.setVelocityX(this.gameSpeed * this.velocity - 300);
 		bullet.checkWorldBounds = true;
 		bullet.outOfBoundsKill = true;
+		bullet.setDepth(400);
 	}
 
 	bossFight() {
@@ -354,7 +360,7 @@ export class GameScene extends Phaser.Scene {
 		boss.body.setSize(1200,1800,true);
 		boss.invincible = true;
 		boss.setScale(0.15);
-		boss.health = 100 * this.gameSpeed;
+		boss.health = 300 * this.gameSpeed;
 		boss.setCollideWorldBounds(false);
 		boss.setDepth(900);
 		boss.timers=[];
