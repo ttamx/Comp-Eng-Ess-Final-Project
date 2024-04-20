@@ -13,7 +13,7 @@
     </style>
   </head>
   <body>
-    <audio autoplay = "" src = "audio/brain-damage-148577.mp3" ></audio>
+    <audio loop = "" autoplay = "" src = "audio/space.mp3" ></audio>
     <audio id = "myaudio" src = "audio/button-124476.mp3" preload="auto"></audio>
     <form autocomplete="off" class="form">
       <div class="waviy">
@@ -44,6 +44,7 @@
           <div class="bg-inner"></div>
         </div>
       </div>
+      
       <button class="btn block-cube block-cube-hover" type="button" onclick = "document.cookie = 'username=' + document.querySelector('input[name=username]').value; document.getElementById('myaudio').play() ;setTimeout(function(){window.location.href = './game.html'}, 1000);">
         <div class="bg-top">
           <div class="bg-inner"></div>
@@ -55,6 +56,19 @@
           <div class="bg-inner"></div>
         </div>
         <div class="text">Let's start !</div>
+      </button>
+      <br>
+      <button class="btn block-cube block-cube-hover" type="button" onclick = "document.cookie = 'username=' + document.querySelector('input[name=username]').value; document.getElementById('myaudio').play() ;setTimeout(function(){window.location.href = './leaderBoard.html'}, 1000);">
+        <div class="bg-top">
+          <div class="bg-inner"></div>
+        </div>
+        <div class="bg-right">
+          <div class="bg-inner"></div>
+        </div>
+        <div class="bg">
+          <div class="bg-inner"></div>
+        </div>
+        <div class="text">Leader Board</div>
       </button>
     </form>
   </body>
