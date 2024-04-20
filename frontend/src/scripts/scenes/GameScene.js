@@ -13,6 +13,8 @@ export class GameScene extends Phaser.Scene {
 		this.load.audio('bgm','../../assets/bgm.mp3');
 		this.load.audio('crash','../../audio/crash.mp3');
 		this.load.audio('starsfx','../../audio/star.mp3');
+		this.load.image('bound', '../../assets/bound.png');
+		this.load.spritesheet('boss1', '../../assets/boss1/spritesheet.png', { frameWidth: 2048, frameHeight: 2048 });
 	}
 
 	create() {
@@ -34,7 +36,7 @@ export class GameScene extends Phaser.Scene {
 		this.started = false;
 		this.username = document.cookie.split('=')[1];
 		this.player = this.physics.add.sprite(100, 450, 'character').setScale(0.07);
-		this.player.setBounce(10);
+		this.player.setBounce(0);
 		this.player.setCollideWorldBounds(true);
 		this.player.setVelocityY(0);
 		this.isJump = false;
@@ -42,15 +44,50 @@ export class GameScene extends Phaser.Scene {
 		this.playerSpeed = 400;
 		this.velocity = -500;
 		this.gameSpeed = 1.3;
+		this.bullets = this.physics.add.group();
+		this.enemiesBullets = this.physics.add.group();
 		this.meteors = this.physics.add.group();
 		this.lastdistance = 0;
 		this.distance = 0;
+		this.totalDistance = 0;
 		this.gameOver = false;
 		this.score = 0;
 		this.invincible = false;
 		this.health = 20;
+		this.bosses = this.physics.add.group();
+		this.bounds = this.physics.add.staticGroup();
+		const bound = this.bounds.create(750, 360, 'bound').setScale(2).refreshBody();
+		bound.setVisible(false);
+		this.physics.add.collider(this.bosses, this.bounds);
 		this.healthText = this.add.text(16, 80, `Health: ${this.health}`, { fontSize: '32px', fill: '#FFFFFF',fontFamily:'ArcadeClassic' });
+		this.healthText.setDepth(1000);
 		// overSound = this.sound.add('overSound');
+		this.physics.add.overlap(this.bullets, this.meteors, (bullet, meteor) => {
+			bullet.destroy();
+			meteor.health -= 1;
+			if (meteor.health <= 0) {
+				meteor.destroy();
+			}
+		});
+		this.physics.add.overlap(this.bullets, this.bosses, (bullet, boss) => {
+			console.log('hit');
+			bullet.destroy();
+			boss.health -= 1;
+			if (boss.health <= 0) {
+				boss.timers.forEach(timer => {
+					timer.remove();
+				});
+				boss.destroy();
+			}
+		});
+		this.physics.add.overlap(this.player, this.enemiesBullets, (player, bullet) => {
+			if (this.invincible) {
+				return;
+			}
+			this.health -= 1;
+			this.getHurt();
+			this.updateHealth();
+		});
 		this.physics.add.overlap(this.player, this.meteors, (player, meteor) => {
 			if (this.invincible) {
 				return;
@@ -66,13 +103,15 @@ export class GameScene extends Phaser.Scene {
 				this.gameOver = true;
 				this.physics.pause();
 				this.player.setTint(0xff0000);
-				console.log(this.username, this.score, Math.floor(this.distance/1000));
-				sendScore(this.username, this.score, Math.floor(this.distance/1000));
+				console.log(this.username, this.score, Math.floor(this.totalDistance/1000));
+				sendScore(this.username, this.score, Math.floor(this.totalDistance/1000));
 			}
 		});
 		this.stars = this.physics.add.group();
 		this.scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#FFFFFF',fontFamily:'ArcadeClassic'});
 		this.distanceText = this.add.text(16, 48, 'Distance: 0', { fontSize: '32px', fill: '#FFFFFF',fontFamily:'ArcadeClassic'});
+		this.scoreText.setDepth(1000);
+		this.distanceText.setDepth(1000);
 		this.physics.add.overlap(this.player, this.stars, (player, star) => {
 			this.starsfx.play();
 			star.destroy();
@@ -90,6 +129,17 @@ export class GameScene extends Phaser.Scene {
 			
 				this.background.setVelocityX(-30);
 				this.background2.setVelocityX(-30);
+
+				this.bulletTimer = this.time.addEvent({
+					delay: 50,
+					callback: () => {
+						this.fireBullet();
+					},
+					callbackScope: this,
+					loop: true
+				});
+
+				this.bossFight();
 			} else {
 				return;
 			}
@@ -101,7 +151,7 @@ export class GameScene extends Phaser.Scene {
 		}
 		this.updateCyclicBackground();
 		this.distance -= this.velocity * this.gameSpeed;
-		this.distanceText.setText('Distance: ' + Math.floor(this.distance/1000));
+		this.distanceText.setText('Distance: ' + Math.floor(this.totalDistance/1000));
 
 		while (this.distance - this.lastdistance > 1000) {
 			this.updateCount();
@@ -113,6 +163,19 @@ export class GameScene extends Phaser.Scene {
 		} else {
 			this.player.setVelocityY(this.playerSpeed * this.gameSpeed);
 		}
+		this.bosses.children.iterate((boss) => {
+			boss.anims.play('boss1', true);
+		});
+	}
+
+	updateHealth() {
+		if(this.health <= 0) {
+			this.gameOver = true;
+			this.physics.pause();
+			this.player.setTint(0xff0000);
+			sendScore(this.username, this.score, Math.floor(this.totalDistance/1000));
+		}
+		this.healthText.setText('Health: ' + this.health);
 	}
 
 	updateCyclicBackground() {
@@ -157,10 +220,12 @@ export class GameScene extends Phaser.Scene {
 	createMeteors() {
 		const randomY = Math.floor(Math.random() * 700);
 		var meteor = this.meteors.create(1280, randomY, 'meteor').setScale(0.08);
+		meteor.health = 3;
 		meteor.setVelocityX(this.velocity * this.gameSpeed);
 		meteor.setBounce(1);
 		meteor.checkWorldBounds = true;
 		meteor.outOfBoundsKill = true;
+		meteor.setDepth(800);
 	}
 
 	createStar() {
@@ -192,5 +257,70 @@ export class GameScene extends Phaser.Scene {
 		}, 2000);
 	}
 
+	fireBullet() {
+		var bullet = this.bullets.create(this.player.x, this.player.y, 'bullet');
+		bullet.setVelocityX(800 - this.gameSpeed * this.velocity);
+		bullet.checkWorldBounds = true;
+		bullet.outOfBoundsKill = true;
+	}
+
+	fireEnemyBullet(position) {
+		var bullet = this.enemiesBullets.create(position.x, position.y, 'bullet');
+		bullet.setVelocityX(this.gameSpeed * this.velocity - 300);
+		bullet.checkWorldBounds = true;
+		bullet.outOfBoundsKill = true;
+	}
+
+	bossFight() {
+		const boss = this.bosses.create(1000, 350, 'boss1');
+		boss.body.setSize(1200,1800,true);
+		boss.setScale(0.15);
+		boss.health = 1000;
+		boss.setCollideWorldBounds(true);
+		boss.checkWorldBounds = true;
+		boss.outOfBoundsKill = true;
+		boss.setDepth(900);
+		this.anims.create({
+			key: 'boss1',
+			frames: this.anims.generateFrameNumbers('boss1', { start: 0, end: 7 }),
+			frameRate: 10,
+			repeat: -1
+		});
+		boss.timers=[];
+		var angle = 0;
+		var radius = 150;
+		var step = 10;
+		var count = 0;
+		boss.timers.push(this.time.addEvent({
+			delay: 100,
+			callback: () => {
+				count += 1;
+				if(count >= 20) {
+					count = 0;
+				}
+				if(count >= 10) {
+					return;
+				}
+				var position = {x: boss.x + radius * Math.cos(angle), y: boss.y + radius * Math.sin(angle)};
+				this.fireEnemyBullet(position);
+				angle += Math.PI/8;
+				if (radius >= 200 || radius <= 100) {
+					step = -step;
+				}
+				radius += step;
+			},
+			callbackScope: this,
+			loop: true
+		}));
+		boss.timers.push(this.time.addEvent({
+			delay: 1000,
+			callback: () => {
+				boss.setVelocityX(-300 + Math.random() * 600);
+				boss.setVelocityY(-300 + Math.random() * 600);
+			},
+			callbackScope: this,
+			loop: true
+		}));
+	}
 	
 }
