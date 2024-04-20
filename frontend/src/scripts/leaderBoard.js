@@ -1,17 +1,25 @@
-import { sendScore,getLeaderboard } from "./api.js";
+import { getLeaderboard } from "./api.js";
 
-function drawLeaderboard(user) {
+function drawLeaderboard() {
     const table = document.getElementById('table-body');
     table.innerHTML = "";
 
-    for (const user of users){
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${user.username}</td>
-            <td>${user.maxScore}</td>
-            <td>${user.maxDistance}</td>
-        `;
-        table.appendChild(row);
-    }
+    getLeaderboard().then((data) => {
+        data.forEach((user, index) => {
+            const row = table.insertRow();
+            const rank = row.insertCell(0);
+            const username = row.insertCell(1);
+            const score = row.insertCell(2);
+            const distance = row.insertCell(3);
+
+            rank.innerHTML = index + 1;
+            username.innerHTML = user.username;
+            score.innerHTML = user.maxScore;
+            distance.innerHTML = user.maxDistance;
+        });
+    });
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    drawLeaderboard();
+});
