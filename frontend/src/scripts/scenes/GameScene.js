@@ -19,6 +19,7 @@ export class GameScene extends Phaser.Scene {
 			return;
 		}
 		this.bgm =this.sound.add('bgm');
+		this.bgm.loop=true;
 		this.bgm.play();
 		this.background = this.physics.add.sprite(0, 0, 'background').setScale(0.3515625).setOrigin(0, 0);
 		this.background.setVelocityX(0);
@@ -45,7 +46,6 @@ export class GameScene extends Phaser.Scene {
 		this.invincible = false;
 		this.health = 20;
 		this.healthText = this.add.text(16, 80, 'Health: 20', { fontSize: '32px', fill: '#FFFFFF',fontFamily:'ArcadeClassic' });
-		// overSound = this.sound.add('overSound');
 		this.physics.add.overlap(this.player, this.meteors, (player, meteor) => {
 			if (this.invincible) {
 				return;
