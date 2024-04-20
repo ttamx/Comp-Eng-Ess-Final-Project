@@ -10,6 +10,7 @@ export class GameScene extends Phaser.Scene {
 		this.load.image('character', '../../assets/capoo.png');
 		this.load.image('meteor', '../../assets/meteor.png');
 		this.load.image('star', '../../assets/star.png');
+		this.load.audio('bgm','../../assets/bgm.mp3');
 	}
 
 	create() {
@@ -17,6 +18,9 @@ export class GameScene extends Phaser.Scene {
 			window.location.href = '/';
 			return;
 		}
+		this.bgm =this.sound.add('bgm');
+		this.bgm.loop=true;
+		this.bgm.play();
 		this.background = this.physics.add.sprite(0, 0, 'background').setScale(0.3515625).setOrigin(0, 0);
 		this.background.setVelocityX(0);
 		this.background.setDepth(-1);
@@ -40,7 +44,7 @@ export class GameScene extends Phaser.Scene {
 		this.gameOver = false;
 		this.score = 0;
 		this.invincible = false;
-		this.health = 1;
+		this.health = 20;
 		this.healthText = this.add.text(16, 80, `Health: ${this.health}`, { fontSize: '32px', fill: '#FFFFFF',fontFamily:'ArcadeClassic' });
 		// overSound = this.sound.add('overSound');
 		this.physics.add.overlap(this.player, this.meteors, (player, meteor) => {
@@ -85,6 +89,7 @@ export class GameScene extends Phaser.Scene {
 			}
 		}
 		if (this.gameOver) {
+			this.bgm.stop();
 			window.location.href = './gameover.html';
 			return;
 		}

@@ -13,12 +13,14 @@
     </style>
   </head>
   <body>
+    <audio autoplay = "" src = "audio/sound.mp3"></audio>
+    <audio id = "myaudio" src = "audio/button-124476.mp3" preload="auto"></audio>
     <form autocomplete="off" class="form">
         <div class="control">
             <h1>GAME OVER!</h1>
           </div>
       <div class = "play-again">
-        <button class="btn block-cube block-cube-hover" type="button" onclick = "window.location.href = './game.html';">
+        <button class="btn block-cube block-cube-hover" type="button" onclick = "document.getElementById('myaudio').play(); setTimeout(function(){window.location.href = './game.html'}, 1000);  " >
             <div class="bg-top">
               <div class="bg-inner"></div>
             </div>
@@ -33,7 +35,7 @@
     
       </div>    
       <div class = "leader">
-        <button class="btn block-cube block-cube-hover" type="button" onclick = "window.location.href = './leaderBoard.html';">
+        <button class="btn block-cube block-cube-hover" type="button" onclick = "document.getElementById('myaudio').play(); setTimeout(function(){window.location.href = './leaderBoard.html'}, 1000);"  >
             <div class="bg-top">
               <div class="bg-inner"></div>
             </div>
