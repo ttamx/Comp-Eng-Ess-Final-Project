@@ -8,17 +8,19 @@
 body {
   background-image: url("../assets/bg.png");
   background-repeat: no-repeat;
-  background-size: 120%;
   color:white;
-  background-color: #020024;
   font-family: "ArcadeClassic", sans-serif;
   letter-spacing: 0.05em;
+  height: 100%;
+  /* background-position: center; */
+  background-size: 120% 500%;
+  /* background-size: cover; */
 }
 
 h1 {
   font-size: 42px;
-  position: absolute;
-            top: 15%;
+  position: fixed;
+            top: 108 px;
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center; 
@@ -46,15 +48,15 @@ h1 {
   font-size: 30px;
 }
 .play-again{
-    position: absolute;
-            top: 40%;
+    position: fixed;
+            top: 288px;
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center; 
 }
 .leader{
-    position: absolute;
-            top: 60%;
+    position: fixed;
+            top: 432px;
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center; 
