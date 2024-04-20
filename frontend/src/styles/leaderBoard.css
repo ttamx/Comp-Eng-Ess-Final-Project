@@ -84,6 +84,10 @@ h1 {
   z-index: 1;
 }
 #table th{
+  position: sticky;
+  top: 0;
+  background: black;
+  font-size: 40px;
   font-weight: lighter;
   text-align: center;
 }
@@ -95,23 +99,15 @@ h1 {
   overflow: auto;
 }
 #rank{
-	background: black;
-	font-size: 40px;
 	width: 5%;
 }
 #name{
-	background: black;
-	font-size: 40px;
 	width: 45%;
 }
 #score{
-	background: black;
-	font-size: 40px;
 	width: 25%;
 }
 #distance{
-	background: black;
-	font-size: 40px;
 	width: 25%;
 }
 
