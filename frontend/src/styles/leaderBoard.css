@@ -49,47 +49,50 @@ h1 {
 }
 
 .play{
-    position: fixed;
-    top: 650px;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center; 
+  position: fixed;
+  top: 85%;
+  left: 50%;
+  transform: translate(-50%);
+  text-align: center; 
 }
 #table{
   padding: 0;
   width: 90%;
-  background: lightgrey;
-  border-radius: 8px;
-  box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.1);
+  height: 50%;
   border-collapse: collapse;
-  overflow: hidden;
   text-align: center;
   position: fixed;
   top: 130px;
   left: 50%;
   transform: translate(-50%);
+  overflow-y : auto;
 }
-#table > table{
+#table table{
   width: 100%;
+  height: 100%;
   table-layout: fixed;
+  background: lightgrey;
+  box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
 }
-#table > thead{
+#table thead{
   background: black;
 	font-weight: 400;
   color: #FFFFFF;
-  position: absolute;
   top: 0;
   z-index: 1;
 }
-#table > thead > tr > th{
-    font-weight: lighter;
-    text-align: left;
+#table th{
+  font-weight: lighter;
+  text-align: center;
 }
 #table td{
   background: grey;
 	font-size: 30px;
   padding: 5px 10px;
   font-weight: lighter;
+  overflow: auto;
 }
 #rank{
 	background: black;
