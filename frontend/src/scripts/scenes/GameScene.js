@@ -108,7 +108,8 @@ export class GameScene extends Phaser.Scene {
 				setTimeout(() => {
 					this.bossFighting = false;
 					boss.destroy();
-					this.gameSpeed += 0.5;
+					this.gameSpeed += 0.1;
+					this.gameSpeed = Math.min(2.5, this.gameSpeed);
 					this.updateSpeed();
 					timer.remove();
 					timer2.remove();
@@ -130,6 +131,7 @@ export class GameScene extends Phaser.Scene {
 			this.crash.play();
 			this.health -= 1;
 			this.getHurt();
+			this.updateHealth();
 			if (this.health < 0) {
 				this.health = 0;
 			}
@@ -183,7 +185,7 @@ export class GameScene extends Phaser.Scene {
 					loop: true
 				});
 
-				this.bossFight();
+				// this.bossFight();
 			} else {
 				return;
 			}
@@ -354,7 +356,7 @@ export class GameScene extends Phaser.Scene {
 		boss.body.setSize(1200,1800,true);
 		boss.invincible = true;
 		boss.setScale(0.15);
-		boss.health = 100 * this.gameSpeed;
+		boss.health = 300 * this.gameSpeed;
 		boss.setCollideWorldBounds(false);
 		boss.setDepth(900);
 		boss.timers=[];
