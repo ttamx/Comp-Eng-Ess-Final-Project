@@ -10,6 +10,7 @@ export class GameScene extends Phaser.Scene {
 		this.load.image('character', '../../assets/capoo.png');
 		this.load.image('meteor', '../../assets/meteor.png');
 		this.load.image('star', '../../assets/star.png');
+		this.load.image('heart', '../../assets/heart.png');
 		this.load.audio('bgm','../../assets/bgm.mp3');
 		this.load.audio('crash','../../audio/crash.mp3');
 		this.load.audio('starsfx','../../audio/star.mp3');
@@ -55,15 +56,14 @@ export class GameScene extends Phaser.Scene {
 		this.gameOver = false;
 		this.score = 0;
 		this.player.invincible = false;
-		this.health = 20;
+		this.health = 10;
 		this.bosses = this.physics.add.group();
 		this.bounds = this.physics.add.staticGroup();
 		const bound = this.bounds.create(750, 360, 'bound').setScale(2).refreshBody();
 		bound.setVisible(false);
 		this.physics.add.collider(this.bosses, this.bounds);
-		this.healthText = this.add.text(16, 80, `Health: ${this.health}`, { fontSize: '32px', fill: '#FFFFFF',fontFamily:'ArcadeClassic' });
-		this.healthText.setDepth(1000);
-		// overSound = this.sound.add('overSound');
+		this.heartGroup = [];
+		
 		this.physics.add.overlap(this.bullets, this.meteors, (bullet, meteor) => {
 			bullet.destroy();
 			meteor.health -= 1;
@@ -102,12 +102,12 @@ export class GameScene extends Phaser.Scene {
 				return;
 			}
 			this.crash.play();
-			this.health -= 3;
+			this.health -= 1;
 			this.getHurt();
 			if (this.health < 0) {
 				this.health = 0;
 			}
-			this.healthText.setText('Health: ' + this.health);
+			
 			if(this.health === 0) {
 				this.gameOver = true;
 				this.physics.pause();
@@ -135,6 +135,8 @@ export class GameScene extends Phaser.Scene {
 			frameRate: 10,
 			repeat: -1
 		});
+
+		this.createHeart();
 	}
 
 	update() {
@@ -182,19 +184,21 @@ export class GameScene extends Phaser.Scene {
 		} else {
 			this.player.setVelocityY(this.playerSpeed * this.gameSpeed);
 		}
+		
+
 		this.bosses.children.iterate((boss) => {
 			boss.anims.play('boss1', true);
 		});
 	}
 
 	updateHealth() {
+		this.updateHeart();
 		if(this.health <= 0) {
 			this.gameOver = true;
 			this.physics.pause();
 			this.player.setTint(0xff0000);
 			sendScore(this.username, this.score, Math.floor(this.totalDistance/1000));
 		}
-		this.healthText.setText('Health: ' + this.health);
 	}
 
 	updateCyclicBackground() {
@@ -286,7 +290,22 @@ export class GameScene extends Phaser.Scene {
 			this.player.visible = true;
 		}, 2000);
 	}
-
+	createHeart(){
+		for (var i=0; i < this.health ; i++){
+			var heart = this.physics.add.sprite(900 + (i*35),40, 'heart').setScale(0.015);
+			this.heartGroup.push(heart);
+		}
+	}
+	updateHeart(){
+		for (var i = this.heartGroup.length -1; i>=0;i--){
+			if(this.health < i+1){
+				this.heartGroup[i].setVisible(false);
+			}
+			else{
+				this.heartGroup[i].setVisible(true);
+			}
+		}
+	}
 	fireBullet() {
 		var bullet = this.bullets.create(this.player.x, this.player.y, 'bullet').setScale(0.02);
 		bullet.setVelocityX(800 - this.gameSpeed * this.velocity);
