@@ -39,6 +39,7 @@ export class GameScene extends Phaser.Scene {
 		this.started = false;
 		this.username = document.cookie.split('=')[1];
 		this.player = this.physics.add.sprite(100, 450, 'character').setScale(0.17);
+		this.player.setDepth(1000);
 		this.player.setBounce(0);
 		this.player.setCollideWorldBounds(true);
 		this.player.setVelocityY(0);
@@ -299,6 +300,7 @@ export class GameScene extends Phaser.Scene {
 		star.setBounce(1);
 		star.checkWorldBounds = true;
 		star.outOfBoundsKill = true;
+		star.setDepth(700);
 	}
 
 	getHurt() {
@@ -341,6 +343,7 @@ export class GameScene extends Phaser.Scene {
 		bullet.setVelocityX(800 - this.gameSpeed * this.velocity);
 		bullet.checkWorldBounds = true;
 		bullet.outOfBoundsKill = true;
+		bullet.setDepth(500);
 	}
 
 	fireEnemyBullet(position) {
@@ -348,6 +351,7 @@ export class GameScene extends Phaser.Scene {
 		bullet.setVelocityX(this.gameSpeed * this.velocity - 300);
 		bullet.checkWorldBounds = true;
 		bullet.outOfBoundsKill = true;
+		bullet.setDepth(400);
 	}
 
 	bossFight() {
