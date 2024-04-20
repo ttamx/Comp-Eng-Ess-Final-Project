@@ -1,6 +1,3 @@
-import { MainScene } from "./scenes/MainScene.js";
-import { LeaderBoardScene } from "./scenes/LeaderBoardScene.js";
-import { LoginScene } from "./scenes/LoginScene.js";
 import { GameScene } from "./scenes/GameScene.js";
 
 const config = {

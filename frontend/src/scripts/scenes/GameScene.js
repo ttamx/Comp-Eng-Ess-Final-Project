@@ -15,6 +15,8 @@ export class GameScene extends Phaser.Scene {
 		this.load.audio('starsfx','../../audio/star.mp3');
 		this.load.image('bound', '../../assets/bound.png');
 		this.load.spritesheet('boss1', '../../assets/boss1/spritesheet.png', { frameWidth: 2048, frameHeight: 2048 });
+		this.load.image('bullet', '../../assets/bullet.png');
+		this.load.image('bullet1', '../../assets/boss1/bullet.png');
 	}
 
 	create() {
@@ -43,7 +45,7 @@ export class GameScene extends Phaser.Scene {
 		this.cursors = this.input.keyboard.createCursorKeys();
 		this.playerSpeed = 400;
 		this.velocity = -500;
-		this.gameSpeed = 1.3;
+		this.gameSpeed = 1;
 		this.bullets = this.physics.add.group();
 		this.enemiesBullets = this.physics.add.group();
 		this.meteors = this.physics.add.group();
@@ -52,7 +54,7 @@ export class GameScene extends Phaser.Scene {
 		this.totalDistance = 0;
 		this.gameOver = false;
 		this.score = 0;
-		this.invincible = false;
+		this.player.invincible = false;
 		this.health = 20;
 		this.bosses = this.physics.add.group();
 		this.bounds = this.physics.add.staticGroup();
@@ -69,7 +71,11 @@ export class GameScene extends Phaser.Scene {
 				meteor.destroy();
 			}
 		});
+		this.bossFighting = false;
 		this.physics.add.overlap(this.bullets, this.bosses, (bullet, boss) => {
+			if(boss.invincible) {
+				return;
+			}
 			console.log('hit');
 			bullet.destroy();
 			boss.health -= 1;
@@ -78,10 +84,13 @@ export class GameScene extends Phaser.Scene {
 					timer.remove();
 				});
 				boss.destroy();
+				this.bossFighting = false;
+				this.gameSpeed += 0.5;
+				this.updateSpeed();
 			}
 		});
 		this.physics.add.overlap(this.player, this.enemiesBullets, (player, bullet) => {
-			if (this.invincible) {
+			if (this.player.invincible) {
 				return;
 			}
 			this.health -= 1;
@@ -89,7 +98,7 @@ export class GameScene extends Phaser.Scene {
 			this.updateHealth();
 		});
 		this.physics.add.overlap(this.player, this.meteors, (player, meteor) => {
-			if (this.invincible) {
+			if (this.player.invincible) {
 				return;
 			}
 			this.crash.play();
@@ -119,6 +128,13 @@ export class GameScene extends Phaser.Scene {
 			this.scoreText.setText('Score: ' + this.score);
 		});
 		this.count = 0;
+		this.bossCounter = 0;
+		this.anims.create({
+			key: 'boss1',
+			frames: this.anims.generateFrameNumbers('boss1', { start: 0, end: 7 }),
+			frameRate: 10,
+			repeat: -1
+		});
 	}
 
 	update() {
@@ -150,7 +166,10 @@ export class GameScene extends Phaser.Scene {
 			return;
 		}
 		this.updateCyclicBackground();
-		this.distance -= this.velocity * this.gameSpeed;
+		if(!this.bossFighting) {
+			this.distance -= this.velocity * this.gameSpeed;
+		}
+		this.totalDistance -= this.velocity * this.gameSpeed;
 		this.distanceText.setText('Distance: ' + Math.floor(this.totalDistance/1000));
 
 		while (this.distance - this.lastdistance > 1000) {
@@ -189,15 +208,11 @@ export class GameScene extends Phaser.Scene {
 
 	updateCount() {
 		this.count += 1;
+		this.bossCounter += 1;
 
-		if (this.count % 1000 == 0) {
-			this.gameSpeed += 0.01;
-			this.meteors.children.iterate((child) => {
-				child.setVelocityX(this.velocity * this.gameSpeed);
-			});
-			this.stars.children.iterate((child) => {
-				child.setVelocityX(this.velocity * this.gameSpeed);
-			});
+		if (this.bossCounter >= this.gameSpeed * 1000) {
+			this.bossFight();
+			return;
 		}
 
 		if (this.count % 10 == 5) {
@@ -217,9 +232,24 @@ export class GameScene extends Phaser.Scene {
 		}
 	}
 
+	updateSpeed() {
+		this.meteors.children.iterate((child) => {
+			child.setVelocityX(this.velocity * this.gameSpeed);
+		});
+		this.stars.children.iterate((child) => {
+			child.setVelocityX(this.velocity * this.gameSpeed);
+		});
+		this.bullets.children.iterate((child) => {
+			child.setVelocityX(800 - this.gameSpeed * this.velocity);
+		});
+		this.enemiesBullets.children.iterate((child) => {
+			child.setVelocityX(this.gameSpeed * this.velocity - 300);
+		});
+	}
+
 	createMeteors() {
 		const randomY = Math.floor(Math.random() * 700);
-		var meteor = this.meteors.create(1280, randomY, 'meteor').setScale(0.08);
+		var meteor = this.meteors.create(1400, randomY, 'meteor').setScale(0.08);
 		meteor.health = 3;
 		meteor.setVelocityX(this.velocity * this.gameSpeed);
 		meteor.setBounce(1);
@@ -230,7 +260,7 @@ export class GameScene extends Phaser.Scene {
 
 	createStar() {
 		const randomY = Math.floor(Math.random() * 705);
-		var star = this.stars.create(1280, randomY, 'star').setScale(0.03);
+		var star = this.stars.create(1400, randomY, 'star').setScale(0.03);
 		star.setVelocityX(this.velocity * this.gameSpeed);
 		star.setBounce(1);
 		star.checkWorldBounds = true;
@@ -238,9 +268,9 @@ export class GameScene extends Phaser.Scene {
 	}
 
 	getHurt() {
-		this.invincible = true;
+		this.player.invincible = true;
 		setTimeout(() => {
-			this.invincible = false;
+			this.player.invincible = false;
 		}, 2000);
 		const timer = this.time.addEvent({
 			delay: 100,
@@ -258,69 +288,75 @@ export class GameScene extends Phaser.Scene {
 	}
 
 	fireBullet() {
-		var bullet = this.bullets.create(this.player.x, this.player.y, 'bullet');
+		var bullet = this.bullets.create(this.player.x, this.player.y, 'bullet').setScale(0.02);
 		bullet.setVelocityX(800 - this.gameSpeed * this.velocity);
 		bullet.checkWorldBounds = true;
 		bullet.outOfBoundsKill = true;
 	}
 
 	fireEnemyBullet(position) {
-		var bullet = this.enemiesBullets.create(position.x, position.y, 'bullet');
+		var bullet = this.enemiesBullets.create(position.x, position.y, 'bullet1').setScale(0.02);
 		bullet.setVelocityX(this.gameSpeed * this.velocity - 300);
 		bullet.checkWorldBounds = true;
 		bullet.outOfBoundsKill = true;
 	}
 
 	bossFight() {
-		const boss = this.bosses.create(1000, 350, 'boss1');
+		this.bossFighting = true;
+		const boss = this.bosses.create(1400, 350, 'boss1');
 		boss.body.setSize(1200,1800,true);
+		boss.invincible = true;
 		boss.setScale(0.15);
-		boss.health = 1000;
-		boss.setCollideWorldBounds(true);
-		boss.checkWorldBounds = true;
-		boss.outOfBoundsKill = true;
+		boss.health = 500 * this.gameSpeed;
+		boss.setCollideWorldBounds(false);
 		boss.setDepth(900);
-		this.anims.create({
-			key: 'boss1',
-			frames: this.anims.generateFrameNumbers('boss1', { start: 0, end: 7 }),
-			frameRate: 10,
-			repeat: -1
-		});
 		boss.timers=[];
+
+		setTimeout(() => {
+			boss.setVelocityX(-100);
+		}, 4000);
+
 		var angle = 0;
 		var radius = 150;
 		var step = 10;
 		var count = 0;
-		boss.timers.push(this.time.addEvent({
-			delay: 100,
-			callback: () => {
-				count += 1;
-				if(count >= 20) {
-					count = 0;
-				}
-				if(count >= 10) {
-					return;
-				}
-				var position = {x: boss.x + radius * Math.cos(angle), y: boss.y + radius * Math.sin(angle)};
-				this.fireEnemyBullet(position);
-				angle += Math.PI/8;
-				if (radius >= 200 || radius <= 100) {
-					step = -step;
-				}
-				radius += step;
-			},
-			callbackScope: this,
-			loop: true
-		}));
-		boss.timers.push(this.time.addEvent({
-			delay: 1000,
-			callback: () => {
-				boss.setVelocityX(-300 + Math.random() * 600);
-				boss.setVelocityY(-300 + Math.random() * 600);
-			},
-			callbackScope: this,
-			loop: true
-		}));
+
+		setTimeout(() => {
+			boss.invincible = false;
+			boss.setCollideWorldBounds(true);
+			boss.setVelocityX(-300 + Math.random() * 600);
+			boss.setVelocityY(-300 + Math.random() * 600);
+			boss.timers.push(this.time.addEvent({
+				delay: 100,
+				callback: () => {
+					count += 1;
+					if(count >= 14) {
+						count = 0;
+					}
+					if(count < 7) {
+						return;
+					}
+					var position = {x: boss.x + radius * Math.cos(angle), y: boss.y + radius * Math.sin(angle)};
+					this.fireEnemyBullet(position);
+					angle += Math.PI/8;
+					if (radius >= 200 || radius <= 100) {
+						step = -step;
+					}
+					radius += step;
+				},
+				callbackScope: this,
+				loop: true
+			}));
+			boss.timers.push(this.time.addEvent({
+				delay: 1000,
+				callback: () => {
+					boss.setVelocityX(-300 + Math.random() * 600);
+					boss.setVelocityY(-300 + Math.random() * 600);
+				},
+				callbackScope: this,
+				loop: true
+			}));
+		},7000);
 	}
 	
 }
