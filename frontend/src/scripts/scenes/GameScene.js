@@ -11,6 +11,8 @@ export class GameScene extends Phaser.Scene {
 		this.load.image('meteor', '../../assets/meteor.png');
 		this.load.image('star', '../../assets/star.png');
 		this.load.audio('bgm','../../assets/bgm.mp3');
+		this.load.audio('crash','../../audio/crash.mp3');
+		this.load.audio('starsfx','../../audio/star.mp3');
 	}
 
 	create() {
@@ -21,6 +23,8 @@ export class GameScene extends Phaser.Scene {
 		this.bgm =this.sound.add('bgm');
 		this.bgm.loop=true;
 		this.bgm.play();
+		this.crash =this.sound.add('crash',{ loop: false });
+		this.starsfx =this.sound.add('starsfx',{ loop: false });
 		this.background = this.physics.add.sprite(0, 0, 'background').setScale(0.3515625).setOrigin(0, 0);
 		this.background.setVelocityX(0);
 		this.background.setDepth(-1);
@@ -50,6 +54,7 @@ export class GameScene extends Phaser.Scene {
 			if (this.invincible) {
 				return;
 			}
+			this.crash.play();
 			this.health -= 3;
 			this.getHurt();
 			if (this.health < 0) {
@@ -68,6 +73,7 @@ export class GameScene extends Phaser.Scene {
 		this.scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#FFFFFF',fontFamily:'ArcadeClassic'});
 		this.distanceText = this.add.text(16, 48, 'Distance: 0', { fontSize: '32px', fill: '#FFFFFF',fontFamily:'ArcadeClassic' });
 		this.physics.add.overlap(this.player, this.stars, (player, star) => {
+			this.starsfx.play();
 			star.destroy();
 			this.score += 1;
 			this.scoreText.setText('Score: ' + this.score);
