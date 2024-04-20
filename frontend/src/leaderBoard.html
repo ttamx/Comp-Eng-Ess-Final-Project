@@ -18,6 +18,28 @@
 		<div class="control">
 				<h1>leaderboard</h1>
 			</div>
+			<br>
+			<div>
+				<form autocomplete="off" class="form">
+					<div class="play">
+					<button class="btn block-cube block-cube-hover" type="button" onclick = "document.getElementById('myaudio').play(); setTimeout(function(){window.location.href = './index.html'}, 1000); ">
+						<div class="bg-top">
+						  <div class="bg-inner"></div>
+						</div>
+						<div class="bg-right">
+						  <div class="bg-inner"></div>
+						</div>
+						<div class="bg">
+						  <div class="bg-inner"></div>
+						</div>
+						<div class="text">back</div>
+					  </button>
+					</div>
+				</form>
+			</div>
+			
+			
+			
 			<div id="table">
 				<table>
 					<thead>
@@ -40,22 +62,7 @@
 					
 				</table>
 			</div>
-		<form autocomplete="off" class="form">
-			<div class="play">
-			<button class="btn block-cube block-cube-hover" type="button" onclick = "document.getElementById('myaudio').play(); setTimeout(function(){window.location.href = './index.html'}, 1000); ">
-				<div class="bg-top">
-				  <div class="bg-inner"></div>
-				</div>
-				<div class="bg-right">
-				  <div class="bg-inner"></div>
-				</div>
-				<div class="bg">
-				  <div class="bg-inner"></div>
-				</div>
-				<div class="text">back</div>
-			  </button>
-			</div>
-		</form>
+		
 		<script type="module" src="./scripts/leaderBoard.js"></script>
 	</body>
 </html>

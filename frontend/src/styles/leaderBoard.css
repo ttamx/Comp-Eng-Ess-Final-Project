@@ -37,7 +37,7 @@ h1 {
 .form .btn {
   width: 100%;
   display: block;
-  padding: 14px 16px;
+  padding: 20px 100px;
   background: transparent;
   outline: none;
   border: 0;
@@ -50,7 +50,7 @@ h1 {
 
 .play{
   position: fixed;
-  top: 85%;
+  top: 150px;
   left: 50%;
   transform: translate(-50%);
   text-align: center; 
@@ -62,7 +62,7 @@ h1 {
   border-collapse: collapse;
   text-align: center;
   position: fixed;
-  top: 130px;
+  top: 250px;
   left: 50%;
   transform: translate(-50%);
   overflow-y : auto;
