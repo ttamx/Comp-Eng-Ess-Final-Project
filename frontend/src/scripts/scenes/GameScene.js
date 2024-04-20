@@ -80,13 +80,16 @@ export class GameScene extends Phaser.Scene {
 			console.log('hit');
 			bullet.destroy();
 			boss.health -= 1;
+			boss.updateHealth();
 			if (boss.health <= 0) {
 				boss.timers.forEach(timer => {
 					timer.remove();
 				});
+				boss.totalHealthBar.destroy();
+				boss.helthBar.destroy();
 				boss.invincible = true;
 				boss.setCollideWorldBounds(false);
-				boss.setVelocityX(100);
+				boss.setVelocityX(200);
 				const timer = this.time.addEvent({
 					delay: 100,
 					callback: () => {
@@ -100,7 +103,7 @@ export class GameScene extends Phaser.Scene {
 					callback: () => {
 						boss.visible = !boss.visible;
 						for(let i = 0; i < 5; i++) {
-							this.createStar(Math.random() * -1000);
+							this.createStar(-500 - Math.random() * 500);
 						}
 					},
 					callbackScope: this,
@@ -109,7 +112,7 @@ export class GameScene extends Phaser.Scene {
 				setTimeout(() => {
 					this.bossFighting = false;
 					boss.destroy();
-					this.gameSpeed += 0.1;
+					this.gameSpeed += 0.25;
 					this.gameSpeed = Math.min(2.5, this.gameSpeed);
 					this.updateSpeed();
 					timer.remove();
@@ -186,7 +189,7 @@ export class GameScene extends Phaser.Scene {
 					loop: true
 				});
 
-				// this.bossFight();
+				this.bossFight();
 			} else {
 				return;
 			}
@@ -284,7 +287,7 @@ export class GameScene extends Phaser.Scene {
 	createMeteors() {
 		const randomY = Math.floor(Math.random() * 700);
 		var meteor = this.meteors.create(1400, randomY, 'meteor').setScale(0.08);
-		meteor.health = 3;
+		meteor.health = 20;
 		meteor.setVelocityX(this.velocity * this.gameSpeed);
 		meteor.setBounce(1);
 		meteor.checkWorldBounds = true;
@@ -379,6 +382,16 @@ export class GameScene extends Phaser.Scene {
 			boss.setCollideWorldBounds(true);
 			boss.setVelocityX(-300 + Math.random() * 600);
 			boss.setVelocityY(-300 + Math.random() * 600);
+			boss.totalHealthBar = this.add.rectangle(640, 50, 300, 20, 0x000000);
+			boss.totalHealthBar.setOrigin(0.5, 0.5);
+			boss.totalHealthBar.setDepth(999);
+			boss.helthBar = this.add.rectangle(640, 50, 300, 20, 0xff0000);
+			boss.helthBar.setOrigin(0.5, 0.5);
+			boss.helthBar.setDepth(1000);
+			this.physics.world.enable(boss.helthBar);
+			boss.updateHealth = () => {
+				boss.helthBar.width = 300 * boss.health / (300 * this.gameSpeed);
+			};
 			boss.timers.push(this.time.addEvent({
 				delay: 100,
 				callback: () => {
