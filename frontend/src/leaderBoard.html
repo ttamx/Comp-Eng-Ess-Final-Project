@@ -14,15 +14,14 @@
     </style>
   </head>
 	<body>
-		<form autocomplete="off" class="form">
 			<div class="control">
 				<h1>leaderboard</h1>
 			</div>
-
 			<div id="table">
 				<table>
 					<thead>
 						<tr>
+							<th id = "rank">#</th>
 							<th id = "name">NAME</th>
 							<th id = "score">SCORE</th>
 							<th id = "distance">DISTANCE</th>
@@ -30,16 +29,17 @@
 					</thead>
 					<tbody id="table-body">
 						<tr>
-							<td>test</td>
-							<td>0</td>
-							<td>0</td>
+							<td>1</td>
+							<td>Loading...</td>
+							<td>Loading...</td>
+							<td>Loading...</td>
 						</tr>
 					
 					</tbody>
 					
 				</table>
 			</div>
-				
+		<form autocomplete="off" class="form">
 			<div class="play">
 			<button class="btn block-cube block-cube-hover" type="button" onclick = "window.location.href = './game.html';">
 				<div class="bg-top">
@@ -55,6 +55,6 @@
 			  </button>
 			</div>
 		</form>
-		<script src="./scripts/leaderBoard.js"></script>
+		<script type="module" src="./scripts/leaderBoard.js"></script>
 	</body>
 </html>
