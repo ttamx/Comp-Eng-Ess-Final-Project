@@ -10,7 +10,6 @@ export class GameScene extends Phaser.Scene {
 		this.load.image('character', '../../assets/capoo.png');
 		this.load.image('meteor', '../../assets/meteor.png');
 		this.load.image('star', '../../assets/star.png');
-		// this.load.audio('overSound','../../assets/gameover_sound.wav');
 	}
 
 	create() {
@@ -41,7 +40,6 @@ export class GameScene extends Phaser.Scene {
 		this.gameOver = false;
 		this.score = 0;
 		this.invincible = false;
-		// overSound = this.sound.add('overSound');
 		this.physics.add.overlap(this.player, this.meteors, (player, meteor) => {
 			if (this.invincible) {
 				meteor.destroy();
@@ -77,9 +75,8 @@ export class GameScene extends Phaser.Scene {
 			}
 		}
 		if (this.gameOver) {
-			// return;
-			// overSound.play();
 			window.location.href = './gameover.html';
+			return;
 		}
 		this.updateCyclicBackground();
 		this.distance -= this.velocity * this.gameSpeed;
