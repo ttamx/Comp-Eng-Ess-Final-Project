@@ -61,7 +61,6 @@ export class GameScene extends Phaser.Scene {
 		bound.setVisible(false);
 		this.physics.add.collider(this.bosses, this.bounds);
 		this.heartGroup = [];
-		this.healthText.setDepth(1000);
 		
 		this.physics.add.overlap(this.bullets, this.meteors, (bullet, meteor) => {
 			bullet.destroy();
@@ -166,7 +165,7 @@ export class GameScene extends Phaser.Scene {
 		} else {
 			this.player.setVelocityY(this.playerSpeed * this.gameSpeed);
 		}
-		this.updateHeart();
+		
 
 		this.bosses.children.iterate((boss) => {
 			boss.anims.play('boss1', true);
@@ -174,13 +173,13 @@ export class GameScene extends Phaser.Scene {
 	}
 
 	updateHealth() {
+		this.updateHeart();
 		if(this.health <= 0) {
 			this.gameOver = true;
 			this.physics.pause();
 			this.player.setTint(0xff0000);
 			sendScore(this.username, this.score, Math.floor(this.totalDistance/1000));
 		}
-		this.healthText.setText('Health: ' + this.health);
 	}
 
 	updateCyclicBackground() {
