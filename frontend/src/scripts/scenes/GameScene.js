@@ -319,7 +319,7 @@ export class GameScene extends Phaser.Scene {
 	}
 
 	fireEnemyBullet(position) {
-		var bullet = this.enemiesBullets.create(position.x, position.y, 'bullet1').setScale(0.02);
+		var bullet = this.enemiesBullets.create(position.x, position.y, 'bullet1').setScale(0.03);
 		bullet.setVelocityX(this.gameSpeed * this.velocity - 300);
 		bullet.checkWorldBounds = true;
 		bullet.outOfBoundsKill = true;
