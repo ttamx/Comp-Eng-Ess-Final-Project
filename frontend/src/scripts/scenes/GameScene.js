@@ -86,11 +86,32 @@ export class GameScene extends Phaser.Scene {
 				boss.invincible = true;
 				boss.setCollideWorldBounds(false);
 				boss.setVelocityX(100);
+				const timer = this.time.addEvent({
+					delay: 100,
+					callback: () => {
+						boss.visible = !boss.visible;
+					},
+					callbackScope: this,
+					loop: true
+				});
+				const timer2 = this.time.addEvent({
+					delay: 250,
+					callback: () => {
+						boss.visible = !boss.visible;
+						for(let i = 0; i < 5; i++) {
+							this.createStar(Math.random() * -1000);
+						}
+					},
+					callbackScope: this,
+					loop: true
+				});
 				setTimeout(() => {
 					this.bossFighting = false;
 					boss.destroy();
 					this.gameSpeed += 0.5;
 					this.updateSpeed();
+					timer.remove();
+					timer2.remove();
 				}, 5000);
 			}
 		});
@@ -220,6 +241,7 @@ export class GameScene extends Phaser.Scene {
 		this.bossCounter += 1;
 
 		if (this.bossCounter >= this.gameSpeed * 1000) {
+			this.bossCounter = 0;
 			this.bossFight();
 			return;
 		}
@@ -246,7 +268,7 @@ export class GameScene extends Phaser.Scene {
 			child.setVelocityX(this.velocity * this.gameSpeed);
 		});
 		this.stars.children.iterate((child) => {
-			child.setVelocityX(this.velocity * this.gameSpeed);
+			child.setVelocityX(child.baseSpeed * this.gameSpeed);
 		});
 		this.bullets.children.iterate((child) => {
 			child.setVelocityX(800 - this.gameSpeed * this.velocity);
@@ -267,10 +289,11 @@ export class GameScene extends Phaser.Scene {
 		meteor.setDepth(800);
 	}
 
-	createStar() {
+	createStar(baseSpeed = this.velocity) {
 		const randomY = Math.floor(Math.random() * 705);
 		var star = this.stars.create(1400, randomY, 'star').setScale(0.03);
-		star.setVelocityX(this.velocity * this.gameSpeed);
+		star.baseSpeed = baseSpeed;
+		star.setVelocityX(baseSpeed * this.gameSpeed);
 		star.setBounce(1);
 		star.checkWorldBounds = true;
 		star.outOfBoundsKill = true;
@@ -319,7 +342,7 @@ export class GameScene extends Phaser.Scene {
 	}
 
 	fireEnemyBullet(position) {
-		var bullet = this.enemiesBullets.create(position.x, position.y, 'bullet1').setScale(0.02);
+		var bullet = this.enemiesBullets.create(position.x, position.y, 'bullet1').setScale(0.03);
 		bullet.setVelocityX(this.gameSpeed * this.velocity - 300);
 		bullet.checkWorldBounds = true;
 		bullet.outOfBoundsKill = true;
@@ -331,7 +354,7 @@ export class GameScene extends Phaser.Scene {
 		boss.body.setSize(1200,1800,true);
 		boss.invincible = true;
 		boss.setScale(0.15);
-		boss.health = 500 * this.gameSpeed;
+		boss.health = 100 * this.gameSpeed;
 		boss.setCollideWorldBounds(false);
 		boss.setDepth(900);
 		boss.timers=[];
