@@ -8,7 +8,9 @@
 body {
   background-image: url("../assets/bg.png");
   background-repeat: no-repeat;
-  color: #fff;
+  background-size: 120%;
+  color:white;
+  background-color: #020024;
   font-family: "ArcadeClassic", sans-serif;
   letter-spacing: 0.05em;
 }
