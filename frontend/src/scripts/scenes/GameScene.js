@@ -7,7 +7,7 @@ export class GameScene extends Phaser.Scene {
 
 	preload() {
 		this.load.image('background', '../../assets/background.jpg');
-		this.load.image('character', '../../assets/capoo.png');
+		this.load.image('character', '../../assets/spacecraft.png');
 		this.load.image('meteor', '../../assets/meteor.png');
 		this.load.image('star', '../../assets/star.png');
 		this.load.image('heart', '../../assets/heart.png');
@@ -38,7 +38,7 @@ export class GameScene extends Phaser.Scene {
 		this.background2.setDepth(-1);
 		this.started = false;
 		this.username = document.cookie.split('=')[1];
-		this.player = this.physics.add.sprite(100, 450, 'character').setScale(0.07);
+		this.player = this.physics.add.sprite(100, 450, 'character').setScale(0.17);
 		this.player.setBounce(0);
 		this.player.setCollideWorldBounds(true);
 		this.player.setVelocityY(0);
