@@ -15,7 +15,7 @@
   <body>
     <audio loop = "" autoplay = "" src = "audio/space.mp3" ></audio>
     <audio id = "myaudio" src = "audio/button-124476.mp3" preload="auto"></audio>
-    <form autocomplete="off" class="form">
+    <div class = "Outliner">
       <div class="waviy">
         <span style="--i: 1">S</span>
         <span style="--i: 2">P</span>
@@ -33,7 +33,7 @@
         <h2>Enter Your Name</h2>
       </div>
       <div class="control block-cube block-input">
-        <input name="username" placeholder="Username" type="text" />
+        <input name="username" placeholder="Username" type="text" id = "username" maxlength = "20" required>
         <div class="bg-top">
           <div class="bg-inner"></div>
         </div>
@@ -70,6 +70,16 @@
         </div>
         <div class="text">Leader Board</div>
       </button>
-    </form>
+    </div>
+    <script>
+      const inp = document.getElementById('username');
+      inp.addEventListener('keyup', (e) => {  
+        if(e.keyCode === 13){
+          document.cookie = 'username=' + document.querySelector('input[name=username]').value;
+          document.getElementById('myaudio').play() ;
+          setTimeout(function(){window.location.href = './game.html'}, 1000);
+        }
+     });
+    </script>
   </body>
 </html>
