@@ -28,9 +28,13 @@
   }
 }
 body {
-  background-image: url("../assets/bg1.jpg");
+  background-image: url("../assets/bg1.png");
   background-repeat: no-repeat;
-  color: #fff;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+  color:white;
+  background-color: #020024;
   font-family: "ArcadeClassic", sans-serif;
   letter-spacing: 0.05em;
 }
