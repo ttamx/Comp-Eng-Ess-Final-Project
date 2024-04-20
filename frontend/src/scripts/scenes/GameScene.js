@@ -40,8 +40,8 @@ export class GameScene extends Phaser.Scene {
 		this.gameOver = false;
 		this.score = 0;
 		this.invincible = false;
-		this.health = 20;
-		this.healthText = this.add.text(16, 80, 'Health: 20', { fontSize: '32px', fill: '#FFFFFF',fontFamily:'ArcadeClassic' });
+		this.health = 1;
+		this.healthText = this.add.text(16, 80, `Health: ${this.health}`, { fontSize: '32px', fill: '#FFFFFF',fontFamily:'ArcadeClassic' });
 		// overSound = this.sound.add('overSound');
 		this.physics.add.overlap(this.player, this.meteors, (player, meteor) => {
 			if (this.invincible) {
@@ -63,7 +63,7 @@ export class GameScene extends Phaser.Scene {
 		});
 		this.stars = this.physics.add.group();
 		this.scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#FFFFFF',fontFamily:'ArcadeClassic'});
-		this.distanceText = this.add.text(16, 48, 'Distance: 0', { fontSize: '32px', fill: '#FFFFFF',fontFamily:'ArcadeClassic' });
+		this.distanceText = this.add.text(16, 48, 'Distance: 0', { fontSize: '32px', fill: '#FFFFFF',fontFamily:'ArcadeClassic'});
 		this.physics.add.overlap(this.player, this.stars, (player, star) => {
 			star.destroy();
 			this.score += 1;
@@ -74,7 +74,7 @@ export class GameScene extends Phaser.Scene {
 
 	update() {
 		if (!this.started) {
-			if (this.cursors.space.isDown) {
+			if (this.cursors.space.isDown || this.input.activePointer.isDown) {
 				this.started = true;
 				this.updateCount();
 			
@@ -97,7 +97,7 @@ export class GameScene extends Phaser.Scene {
 			this.lastdistance += 1000;
 		}
 
-		if (this.cursors.space.isDown) {
+		if (this.cursors.space.isDown || this.input.activePointer.isDown) {
 			this.player.setVelocityY(-this.playerSpeed * this.gameSpeed );
 		} else {
 			this.player.setVelocityY(this.playerSpeed * this.gameSpeed);
