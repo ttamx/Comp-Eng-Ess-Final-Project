@@ -1,50 +1,60 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" >
-	<head>
-		<meta http-equiv="content-type" content="text/html" charset="utf-8" />
-		<title>leader board</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="" >
-		<link rel="StyleSheet" href="./styles/leaderBoard.css" />
-		<script src="https://secure.exportkit.com/cdn/js/ek_googlefonts.js?v=6"></script>
-
-	</head>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>leaderboard</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <link rel="stylesheet" href="./styles/leaderBoard.css" />
+    <link
+      href="https://fonts.cdnfonts.com/css/arcade-classic"
+      rel="stylesheet"
+    />
+    <style>
+      @import url("https://fonts.cdnfonts.com/css/arcade-classic");
+    </style>
+  </head>
 	<body>
-		<div id="content-container" >
-			<div id="page_background_ek1"  nameid="background"  >
-				<div  nameid="background"  id="_bg__background_ek2"  ></div>
-				<img src="./assets/leaderBoard_background.png"  nameid="background Container"  id="background_container" />
-				<div class = "leaderBoard-message">
-					<p>Leaderboard</p>
-				</div>
-				<div id="table">
-                    <table>
-						<thead>
-							<tr id = "table-head">
-								<th id = "name">NAME</th>
-								<th id = "score">SCORE</th>
-								<th id = "distance">DISTANCE</th>
-							</tr>
-						</thead>
-						<tbody id="table-body">
-							<tr>
-								<td>test</td>
-								<td>0</td>
-								<td>0</td>
-							</tr>
-						
-						</tbody>
-						
-					</table>
-                </div>
-				
-				<div class="play-again-button">
-
-					<button class="play-again" onclick = "window.location.href = './game.html';">PLAY</button>
-				</div>	
+		<form autocomplete="off" class="form">
+			<div class="control">
+				<h1>leaderboard</h1>
 			</div>
-		</div>
-		
-        <script src="./scripts/leaderBoard.js"></script>
+
+			<div id="table">
+				<table>
+					<thead>
+						<tr>
+							<th id = "name">NAME</th>
+							<th id = "score">SCORE</th>
+							<th id = "distance">DISTANCE</th>
+						</tr>
+					</thead>
+					<tbody id="table-body">
+						<tr>
+							<td>test</td>
+							<td>0</td>
+							<td>0</td>
+						</tr>
+					
+					</tbody>
+					
+				</table>
+			</div>
+				
+			<div class="play">
+			<button class="btn block-cube block-cube-hover" type="button" onclick = "window.location.href = './game.html';">
+				<div class="bg-top">
+				  <div class="bg-inner"></div>
+				</div>
+				<div class="bg-right">
+				  <div class="bg-inner"></div>
+				</div>
+				<div class="bg">
+				  <div class="bg-inner"></div>
+				</div>
+				<div class="text">play</div>
+			  </button>
+			</div>
+		</form>
+		<script src="./scripts/leaderBoard.js"></script>
 	</body>
 </html>
