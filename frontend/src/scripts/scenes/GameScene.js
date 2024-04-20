@@ -18,6 +18,7 @@ export class GameScene extends Phaser.Scene {
 		this.load.spritesheet('boss1', '../../assets/boss1/spritesheet.png', { frameWidth: 2048, frameHeight: 2048 });
 		this.load.image('bullet', '../../assets/bullet.png');
 		this.load.image('bullet1', '../../assets/boss1/bullet.png');
+		this.load.image('star2', '../../assets/star2.png')
 	}
 
 	create() {
@@ -103,7 +104,7 @@ export class GameScene extends Phaser.Scene {
 					callback: () => {
 						boss.visible = !boss.visible;
 						for(let i = 0; i < 5; i++) {
-							this.createStar(-500 - Math.random() * 500);
+							this.createStar2(Math.random() * -1000);
 						}
 					},
 					callbackScope: this,
@@ -153,6 +154,7 @@ export class GameScene extends Phaser.Scene {
 		this.distanceText = this.add.text(16, 48, 'Distance: 0', { fontSize: '32px', fill: '#FFFFFF',fontFamily:'ArcadeClassic'});
 		this.scoreText.setDepth(1000);
 		this.distanceText.setDepth(1000);
+		
 		this.physics.add.overlap(this.player, this.stars, (player, star) => {
 			this.starsfx.play();
 			star.destroy();
@@ -300,6 +302,16 @@ export class GameScene extends Phaser.Scene {
 	createStar(baseSpeed = this.velocity) {
 		const randomY = Math.floor(Math.random() * 705);
 		var star = this.stars.create(1400, randomY, 'star').setScale(0.03);
+		star.baseSpeed = baseSpeed;
+		star.setVelocityX(baseSpeed * this.gameSpeed);
+		star.setBounce(1);
+		star.checkWorldBounds = true;
+		star.outOfBoundsKill = true;
+		star.setDepth(700);
+	}
+	createStar2(baseSpeed = this.velocity) {
+		const randomY = Math.floor(Math.random() * 705);
+		var star = this.stars.create(1400, randomY, 'star2').setScale(0.03);
 		star.baseSpeed = baseSpeed;
 		star.setVelocityX(baseSpeed * this.gameSpeed);
 		star.setBounce(1);
