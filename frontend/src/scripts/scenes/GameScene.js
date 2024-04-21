@@ -69,6 +69,10 @@ export class GameScene extends Phaser.Scene {
 		this.physics.add.overlap(this.bullets, this.meteors, (bullet, meteor) => {
 			bullet.destroy();
 			meteor.health -= 1;
+			meteor.setTint(0xff0000);
+			setTimeout(() => {
+				meteor.setTint(0xffffff);
+			}, 100);
 			if (meteor.health <= 0) {
 				meteor.destroy();
 			}
