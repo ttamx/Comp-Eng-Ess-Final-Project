@@ -200,7 +200,7 @@ export class GameScene extends Phaser.Scene {
 			this.bgm.stop();
 			setTimeout(() => {
 				window.location.href = './gameover.html';
-			}, 5000);
+			}, 3000);
 			return;
 		}
 		this.updateCyclicBackground();
