@@ -78,7 +78,6 @@ export class GameScene extends Phaser.Scene {
 			if(boss.invincible) {
 				return;
 			}
-			console.log('hit');
 			bullet.destroy();
 			boss.health -= 1;
 			boss.updateHealth();
@@ -133,7 +132,6 @@ export class GameScene extends Phaser.Scene {
 			if (this.player.invincible) {
 				return;
 			}
-			this.crash.play();
 			this.health -= 1;
 			this.getHurt();
 			this.updateHealth();
@@ -156,9 +154,11 @@ export class GameScene extends Phaser.Scene {
 		this.distanceText.setDepth(1000);
 		
 		this.physics.add.overlap(this.player, this.stars, (player, star) => {
-			this.starsfx.play();
+			if(this.score % 10 + star.score >= 10){
+				this.starsfx.play();
+			}
 			star.destroy();
-			this.score += 1;
+			this.score += star.score;
 			this.scoreText.setText('Score: ' + this.score);
 		});
 		this.count = 0;
@@ -197,10 +197,6 @@ export class GameScene extends Phaser.Scene {
 			}
 		}
 		if (this.gameOver) {
-			this.bgm.stop();
-			setTimeout(() => {
-				window.location.href = './gameover.html';
-			}, 3000);
 			return;
 		}
 		this.updateCyclicBackground();
@@ -234,6 +230,10 @@ export class GameScene extends Phaser.Scene {
 			this.physics.pause();
 			this.player.setTint(0xff0000);
 			sendScore(this.username, this.score, Math.floor(this.totalDistance/1000));
+			this.bgm.stop();
+			setTimeout(() => {
+				window.location.href = './gameover.html';
+			}, 3000);
 		}
 	}
 
@@ -308,6 +308,7 @@ export class GameScene extends Phaser.Scene {
 		star.checkWorldBounds = true;
 		star.outOfBoundsKill = true;
 		star.setDepth(700);
+		star.score = 1;
 	}
 	createStar2(baseSpeed = this.velocity) {
 		const randomY = Math.floor(Math.random() * 705);
@@ -318,9 +319,11 @@ export class GameScene extends Phaser.Scene {
 		star.checkWorldBounds = true;
 		star.outOfBoundsKill = true;
 		star.setDepth(700);
+		star.score = 3;
 	}
 
 	getHurt() {
+		this.crash.play();
 		this.player.invincible = true;
 		setTimeout(() => {
 			this.player.invincible = false;
