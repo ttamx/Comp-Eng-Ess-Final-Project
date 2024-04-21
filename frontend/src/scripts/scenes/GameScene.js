@@ -191,7 +191,7 @@ export class GameScene extends Phaser.Scene {
 					loop: true
 				});
 
-				this.bossFight();
+				// this.bossFight();
 			} else {
 				return;
 			}

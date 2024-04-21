@@ -81,5 +81,14 @@
         }
      });
     </script>
+    <script>
+      const cookieValue = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('username='))
+        .split('=')[1];
+      if(cookieValue) {
+        document.getElementById('username').value = cookieValue;
+      }
+    </script>
   </body>
 </html>
