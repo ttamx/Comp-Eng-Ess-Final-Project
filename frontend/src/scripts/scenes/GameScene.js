@@ -289,7 +289,7 @@ export class GameScene extends Phaser.Scene {
 		} else if (this.count % 10 == 0) {
 			this.createMeteors();
 		}
-		if(this.count % 300 == 0){
+		if(this.count % 450 == 0 ){
 			this.createPotion();
 		}
 	}
@@ -372,12 +372,12 @@ export class GameScene extends Phaser.Scene {
 
 	createPotion(){
 		const randomY = Math.floor(Math.random() * 705);
-		var potion = this.potions.create(1400, randomY, 'potion').setScale(0.03);
+		var potion = this.potions.create(1400, randomY, 'potion').setScale(0.04);
 		potion.setVelocityX(this.velocity * this.gameSpeed);
-		potion.setBounce(1);
+		potion.setBounce(1.5);
 		potion.checkWorldBounds = true;
 		potion.outOfBoundsKill = true;
-		potion.setDepth(700);
+		potion.setDepth(800);
 	}
 
 	updateHeart(){
