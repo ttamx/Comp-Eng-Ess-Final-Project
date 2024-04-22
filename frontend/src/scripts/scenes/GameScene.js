@@ -19,6 +19,9 @@ export class GameScene extends Phaser.Scene {
 		this.load.image('bullet', '../../assets/bullet.png');
 		this.load.image('bullet1', '../../assets/boss1/bullet.png');
 		this.load.image('star2', '../../assets/star2.png')
+		this.load.image('potion', '../../assets/potion.png')
+		this.load.audio('potionsound','../../audio/potion.mp3');
+		
 	}
 
 	create() {
@@ -31,6 +34,7 @@ export class GameScene extends Phaser.Scene {
 		this.bgm.play();
 		this.crash =this.sound.add('crash',{ loop: false });
 		this.starsfx =this.sound.add('starsfx',{ loop: false });
+		this.potionsound = this.sound.add('potionsound',{loop: false});
 		this.background = this.physics.add.sprite(0, 0, 'background').setScale(0.3515625).setOrigin(0, 0);
 		this.background.setVelocityX(0);
 		this.background.setDepth(-1);
@@ -152,6 +156,7 @@ export class GameScene extends Phaser.Scene {
 			}
 		});
 		this.stars = this.physics.add.group();
+		this.potions =  this.physics.add.group();
 		this.scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#FFFFFF',fontFamily:'ArcadeClassic'});
 		this.distanceText = this.add.text(16, 48, 'Distance: 0', { fontSize: '32px', fill: '#FFFFFF',fontFamily:'ArcadeClassic'});
 		this.scoreText.setDepth(1000);
@@ -165,6 +170,14 @@ export class GameScene extends Phaser.Scene {
 			this.score += star.score;
 			this.scoreText.setText('Score: ' + this.score);
 		});
+
+		this.physics.add.overlap(this.player, this.potions, (player, potion) => {
+			this.potionsound.play();
+			potion.destroy();
+			this.health += 1;
+			this.updateHealth();
+		});
+
 		this.count = 0;
 		this.bossCounter = 0;
 		this.anims.create({
@@ -228,6 +241,7 @@ export class GameScene extends Phaser.Scene {
 	}
 
 	updateHealth() {
+		if(this.health > 10){this.health = 10;}
 		this.updateHeart();
 		if(this.health <= 0) {
 			this.gameOver = true;
@@ -274,6 +288,9 @@ export class GameScene extends Phaser.Scene {
 			}
 		} else if (this.count % 10 == 0) {
 			this.createMeteors();
+		}
+		if(this.count % 300 == 0){
+			this.createPotion();
 		}
 	}
 
@@ -352,6 +369,17 @@ export class GameScene extends Phaser.Scene {
 			this.heartGroup.push(heart);
 		}
 	}
+
+	createPotion(){
+		const randomY = Math.floor(Math.random() * 705);
+		var potion = this.potions.create(1400, randomY, 'potion').setScale(0.03);
+		potion.setVelocityX(this.velocity * this.gameSpeed);
+		potion.setBounce(1);
+		potion.checkWorldBounds = true;
+		potion.outOfBoundsKill = true;
+		potion.setDepth(700);
+	}
+
 	updateHeart(){
 		for (var i = this.heartGroup.length -1; i>=0;i--){
 			if(this.health < i+1){
