@@ -170,7 +170,10 @@ export class GameScene extends Phaser.Scene {
 			this.score += star.score;
 			this.scoreText.setText('Score: ' + this.score);
 		});
-
+		this.physics.add.overlap(this.potions,this.meteors, (meteor, potion) =>{
+			meteor.destroy();
+		})
+		
 		this.physics.add.overlap(this.player, this.potions, (player, potion) => {
 			this.potionsound.play();
 			potion.destroy();
@@ -289,7 +292,7 @@ export class GameScene extends Phaser.Scene {
 		} else if (this.count % 10 == 0) {
 			this.createMeteors();
 		}
-		if(this.count % 450 == 0 ){
+		if(this.count % 500 == 0 ){
 			this.createPotion();
 		}
 	}
@@ -371,10 +374,9 @@ export class GameScene extends Phaser.Scene {
 	}
 
 	createPotion(){
-		const randomY = Math.floor(Math.random() * 705);
-		var potion = this.potions.create(1400, randomY, 'potion').setScale(0.04);
+		const randomY = Math.floor((Math.random())* 530 + 100);
+		var potion = this.potions.create(1400,randomY, 'potion').setScale(0.04);
 		potion.setVelocityX(this.velocity * this.gameSpeed);
-		potion.setBounce(1.5);
 		potion.checkWorldBounds = true;
 		potion.outOfBoundsKill = true;
 		potion.setDepth(800);
