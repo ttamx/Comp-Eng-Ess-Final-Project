@@ -143,17 +143,6 @@ export class GameScene extends Phaser.Scene {
 			this.health -= 1;
 			this.getHurt();
 			this.updateHealth();
-			if (this.health < 0) {
-				this.health = 0;
-			}
-			
-			if(this.health === 0) {
-				this.gameOver = true;
-				this.physics.pause();
-				this.player.setTint(0xff0000);
-				console.log(this.username, this.score, Math.floor(this.totalDistance/1000));
-				sendScore(this.username, this.score, Math.floor(this.totalDistance/1000));
-			}
 		});
 		this.stars = this.physics.add.group();
 		this.potions =  this.physics.add.group();
