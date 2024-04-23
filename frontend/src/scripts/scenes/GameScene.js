@@ -282,6 +282,9 @@ export class GameScene extends Phaser.Scene {
 		} else if (this.count % 10 == 0) {
 			this.createMeteors();
 		}
+		if(this.count > 1000 && this.count % 18 == 0){
+			this.createMeteors();
+		}
 		if(this.count % 450 == 0 ){
 			this.createPotion();
 		}
