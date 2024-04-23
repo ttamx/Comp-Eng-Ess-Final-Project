@@ -113,7 +113,7 @@ export class GameScene extends Phaser.Scene {
 					callback: () => {
 						boss.visible = !boss.visible;
 						for(let i = 0; i < 5; i++) {
-							this.createStar2(Math.random() * -490 - 10);
+							this.createStar2(Math.random() * -400 - 100);
 						}
 					},
 					callbackScope: this,
