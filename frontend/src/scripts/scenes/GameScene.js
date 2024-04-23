@@ -25,7 +25,7 @@ export class GameScene extends Phaser.Scene {
 	}
 
 	create() {
-		if(!document.cookie.includes('username=') || document.cookie.split('=')[1] === '') {
+		if(!document.cookie.includes('username=') || document.cookie.split('; ').find(row => row.startsWith('username=')).split('=')[1] === '') {
 			window.location.href = '/';
 			return;
 		}
@@ -42,7 +42,7 @@ export class GameScene extends Phaser.Scene {
 		this.background2.setVelocityX(0);
 		this.background2.setDepth(-1);
 		this.started = false;
-		this.username = document.cookie.split('=')[1];
+		this.username = document.cookie.split('; ').find(row => row.startsWith('username=')).split('=')[1];
 		this.player = this.physics.add.sprite(100, 450, 'character')
 		this.player.setSize(400,400);
 		this.player.setScale(0.17);
@@ -113,7 +113,7 @@ export class GameScene extends Phaser.Scene {
 					callback: () => {
 						boss.visible = !boss.visible;
 						for(let i = 0; i < 5; i++) {
-							this.createStar2(Math.random() * -400 - 100);
+							this.createStar2(-100 - (Math.random() * 400));
 						}
 					},
 					callbackScope: this,
