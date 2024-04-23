@@ -19,7 +19,7 @@ export class GameScene extends Phaser.Scene {
 		this.load.image('bullet', '../../assets/bullet.png');
 		this.load.image('bullet1', '../../assets/boss1/bullet.png');
 		this.load.image('star2', '../../assets/star2.png')
-		this.load.image('potion', '../../assets/potion.png')
+		this.load.image('potion', '../../assets/potion2.png')
 		this.load.audio('potionsound','../../audio/potion.mp3');
 		
 	}
