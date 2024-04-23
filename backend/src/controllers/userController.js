@@ -11,7 +11,7 @@ export const sendScore = async (req, res) => {
                 maxDistance: distance,
             });
             await newUser.save();
-            res.status(201).json(newUser);
+            res.status(201).json(newUser); 
         } else {
             if (score > user.maxScore) {
                 user.maxScore = score;
