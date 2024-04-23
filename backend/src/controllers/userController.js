@@ -3,9 +3,9 @@ import User from "../models/userModel.js";
 export const sendScore = async (req, res) => {
     try{
         const { username, score, distance } = req.body;
-        const user = await User.findOne({ username });
+        const user = await User.findOne({ username: username });
         if (!user) {
-            const newUser = new User({
+            const newUser = await new User({
                 username: username,
                 maxScore: score,
                 maxDistance: distance,
