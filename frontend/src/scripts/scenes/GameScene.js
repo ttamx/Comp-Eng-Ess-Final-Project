@@ -239,7 +239,7 @@ export class GameScene extends Phaser.Scene {
 			this.gameOver = true;
 			this.physics.pause();
 			this.player.setTint(0xff0000);
-			sendScore(this.username, this.score, Math.floor(this.totalDistance/1000));
+			// sendScore(this.username, this.score, Math.floor(this.totalDistance/1000));
 			this.bgm.stop();
 			setTimeout(() => {
 				window.location.href = './gameover.html';
