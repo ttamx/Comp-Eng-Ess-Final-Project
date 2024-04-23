@@ -271,18 +271,14 @@ export class GameScene extends Phaser.Scene {
 			this.createStar();
 		}
 
-		if(this.count % 1000 == 0) {
-			for(let i = 0; i < 20; i++) {
-				this.createStar();
-			}
-		} else if(this.count % 200 == 0) {
+		if(this.count % 200 == 0) {
 			for(let i = 0; i < 3; i++) {
 				this.createMeteors();
 			}
 		} else if (this.count % 10 == 0) {
 			this.createMeteors();
 		}
-		if(this.count > 1000 && this.count % 18 == 0){
+		if(this.count > 1000 && this.count % 30 == 0){
 			this.createMeteors();
 		}
 		if(this.count % 450 == 0 ){
@@ -308,7 +304,7 @@ export class GameScene extends Phaser.Scene {
 	createMeteors() {
 		const randomY = Math.floor(Math.random() * 700);
 		var meteor = this.meteors.create(1400, randomY, 'meteor').setScale(0.08);
-		meteor.health = 20;
+		meteor.health = 10;
 		meteor.setVelocityX(this.velocity * this.gameSpeed);
 		meteor.setBounce(1);
 		meteor.checkWorldBounds = true;
