@@ -43,7 +43,9 @@ export class GameScene extends Phaser.Scene {
 		this.background2.setDepth(-1);
 		this.started = false;
 		this.username = document.cookie.split('=')[1];
-		this.player = this.physics.add.sprite(100, 450, 'character').setScale(0.17);
+		this.player = this.physics.add.sprite(100, 450, 'character')
+		this.player.setSize(400,400);
+		this.player.setScale(0.17);
 		this.player.setDepth(1000);
 		this.player.setBounce(0);
 		this.player.setCollideWorldBounds(true);
@@ -178,7 +180,6 @@ export class GameScene extends Phaser.Scene {
 			frameRate: 10,
 			repeat: -1
 		});
-
 		this.createHeart();
 	}
 
@@ -270,17 +271,16 @@ export class GameScene extends Phaser.Scene {
 			this.createStar();
 		}
 
-		if(this.count % 1000 == 0) {
-			for(let i = 0; i < 20; i++) {
-				this.createStar();
-			}
-		} else if(this.count % 200 == 0) {
-			for(let i = 0; i < 4; i++) {
+		if(this.count % 200 == 0) {
+			for(let i = 0; i < 3; i++) {
 				this.createMeteors();
 			}
-		} else if (this.count % 10 == 0) {
+		}
+		
+		if (this.count % 10 == 0) {
 			this.createMeteors();
 		}
+
 		if(this.count % 450 == 0 ){
 			this.createPotion();
 		}
@@ -304,7 +304,7 @@ export class GameScene extends Phaser.Scene {
 	createMeteors() {
 		const randomY = Math.floor(Math.random() * 700);
 		var meteor = this.meteors.create(1400, randomY, 'meteor').setScale(0.08);
-		meteor.health = 20;
+		meteor.health = 10;
 		meteor.setVelocityX(this.velocity * this.gameSpeed);
 		meteor.setBounce(1);
 		meteor.checkWorldBounds = true;
@@ -357,7 +357,7 @@ export class GameScene extends Phaser.Scene {
 	}
 	createHeart(){
 		for (var i=0; i < this.health ; i++){
-			var heart = this.physics.add.sprite(900 + (i*35),40, 'heart').setScale(0.015);
+			var heart = this.physics.add.sprite(900 + (i * 35), 40, 'heart').setScale(0.015);
 			this.heartGroup.push(heart);
 		}
 	}
@@ -372,11 +372,10 @@ export class GameScene extends Phaser.Scene {
 	}
 
 	updateHeart(){
-		for (var i = this.heartGroup.length -1; i>=0;i--){
-			if(this.health < i+1){
+		for (var i = this.heartGroup.length - 1; i >= 0; i--) {
+			if(this.health < i+1) {
 				this.heartGroup[i].setVisible(false);
-			}
-			else{
+			} else {
 				this.heartGroup[i].setVisible(true);
 			}
 		}
@@ -464,5 +463,4 @@ export class GameScene extends Phaser.Scene {
 			}));
 		},7000);
 	}
-	
 }
