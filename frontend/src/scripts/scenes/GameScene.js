@@ -67,14 +67,9 @@ export class GameScene extends Phaser.Scene {
 		this.health = 10;
 		this.bosses = this.physics.add.group();
 		this.bounds = this.physics.add.staticGroup();
-		const bound1 = this.bounds.create(750, 360, 'bound').setScale(2).refreshBody();
-		bound1.setVisible(false);
+		const bound = this.bounds.create(750, 360, 'bound').setScale(2).refreshBody();
+		bound.setVisible(false);
 		this.physics.add.collider(this.bosses, this.bounds);
-		this.bounds2 = this.physics.add.staticGroup();
-		const bound2 = this.bounds2.create(-500, 360, 'bound').setScale(2).refreshBody();
-		const bound3 = this.bounds2.create(1500, 360, 'bound').setScale(2).refreshBody();
-		bound2.setVisible(false);
-		bound3.setVisible(false);
 		this.heartGroup = [];
 		
 		this.physics.add.overlap(this.bullets, this.meteors, (bullet, meteor) => {
@@ -184,21 +179,6 @@ export class GameScene extends Phaser.Scene {
 			frames: this.anims.generateFrameNumbers('boss1', { start: 0, end: 7 }),
 			frameRate: 10,
 			repeat: -1
-		});
-		this.physics.add.overlap(this.bounds2,this.star, (bound, star) => {
-			star.destroy();
-		});
-		this.physics.add.overlap(this.bounds2,this.meteors, (bound, meteor) => {
-			meteor.destroy();
-		});
-		this.physics.add.overlap(this.bounds2,this.bullets, (bound, bullet) => {
-			bullet.destroy();
-		});
-		this.physics.add.overlap(this.bounds2,this.enemiesBullets, (bound, bullet) => {
-			bullet.destroy();
-		});
-		this.physics.add.overlap(this.bounds2,this.potions, (bound, potion) => {
-			potion.destroy();
 		});
 		this.createHeart();
 	}
@@ -328,6 +308,8 @@ export class GameScene extends Phaser.Scene {
 		meteor.health = 20;
 		meteor.setVelocityX(this.velocity * this.gameSpeed);
 		meteor.setBounce(1);
+		meteor.checkWorldBounds = true;
+		meteor.outOfBoundsKill = true;
 		meteor.setDepth(800);
 	}
 
@@ -337,6 +319,8 @@ export class GameScene extends Phaser.Scene {
 		star.baseSpeed = baseSpeed;
 		star.setVelocityX(baseSpeed * this.gameSpeed);
 		star.setBounce(1);
+		star.checkWorldBounds = true;
+		star.outOfBoundsKill = true;
 		star.setDepth(700);
 		star.score = 1;
 	}
@@ -346,6 +330,8 @@ export class GameScene extends Phaser.Scene {
 		star.baseSpeed = baseSpeed;
 		star.setVelocityX(baseSpeed * this.gameSpeed);
 		star.setBounce(1);
+		star.checkWorldBounds = true;
+		star.outOfBoundsKill = true;
 		star.setDepth(700);
 		star.score = 3;
 	}
@@ -381,6 +367,8 @@ export class GameScene extends Phaser.Scene {
 		const randomY = Math.floor((Math.random())* 530 + 100);
 		var potion = this.potions.create(1400,randomY, 'potion').setScale(0.04);
 		potion.setVelocityX(this.velocity * this.gameSpeed);
+		potion.checkWorldBounds = true;
+		potion.outOfBoundsKill = true;
 		potion.setDepth(800);
 	}
 
@@ -397,12 +385,16 @@ export class GameScene extends Phaser.Scene {
 	fireBullet() {
 		var bullet = this.bullets.create(this.player.x, this.player.y, 'bullet').setScale(0.02);
 		bullet.setVelocityX(800 - this.gameSpeed * this.velocity);
+		bullet.checkWorldBounds = true;
+		bullet.outOfBoundsKill = true;
 		bullet.setDepth(500);
 	}
 
 	fireEnemyBullet(position) {
 		var bullet = this.enemiesBullets.create(position.x, position.y, 'bullet1').setScale(0.03);
 		bullet.setVelocityX(this.gameSpeed * this.velocity - 300);
+		bullet.checkWorldBounds = true;
+		bullet.outOfBoundsKill = true;
 		bullet.setDepth(400);
 	}
 
