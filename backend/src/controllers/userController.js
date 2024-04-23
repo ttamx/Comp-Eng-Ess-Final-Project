@@ -6,7 +6,7 @@ export const sendScore = async (req, res) => {
         const user = await User.findOne({ username });
         if (!user) {
             const newUser = new User({
-                username,
+                username: username,
                 maxScore: score,
                 maxDistance: distance,
             });
